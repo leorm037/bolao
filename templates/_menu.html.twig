@@ -1,0 +1,29 @@
+{# template/_menu.html.twig #}
+<li class="nav-item">
+    <a class="nav-link{% if app.request.get('_route') starts with 'app_loteria' %} active{% endif %}" href="{{ path('app_loteria_index') }}">
+        <twig:ux:icon name="meteor-icons:clover" class="Icon icon-rotate-45" /> Loteria
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link{% if app.request.get('_route') starts with 'app_loteria' %} active{% endif %}" href="{{ path('app_loteria_index') }}">
+        <twig:ux:icon name="bi:ticket-perforated" /> Concurso
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link{% if app.request.get('_route') starts with 'app_loteria' %} active{% endif %}" href="{{ path('app_loteria_index') }}">
+        <twig:ux:icon name="material-symbols-light:family-group" /> Bolão
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link{% if app.request.get('_route') starts with 'app_login' %} active{% endif %}" href="{{ path('app_bolao_index') }}">
+        <twig:ux:icon name="bi:door-closed" /> Entrar
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link{% if app.request.get('_route') starts with 'app_inscricao' %} active{% endif %}" href="{{ path('app_bolao_index') }}">
+        <twig:ux:icon name="bi:person-plus" /> Inscreva-se
+    </a>
+</li>

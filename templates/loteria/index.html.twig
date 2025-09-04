@@ -1,0 +1,94 @@
+{# templates/loteria/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} :: Loteria
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active"><twig:ux:icon name="meteor-icons:clover" class="Icon icon-rotate-45" /> Loteria</li>
+{% endblock %}
+
+{% block body %}
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h4 m-0">
+                        <twig:ux:icon name="meteor-icons:clover" class="Icon icon-rotate-45" /> Loteria
+                    </h1>
+                </div>
+                <div>
+                    <a href="{{ path('app_loteria_new') }}" class="btn btn-secondary btn-sm bg-gradient shadow-sm">
+                        <twig:ux:icon name="bi:plus-circle" /> Novo
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th class="d-table-cell d-xl-none">Loteria</th>
+                        <th class="d-none d-xl-table-cell">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>Nome</div>
+                                <div><twig:ux:icon name="bi:sort-alpha-down" /></div>
+                            </div>
+                        </th>
+                        <th class="d-none d-xl-table-cell">Slug</th>
+                        <th class="d-none d-xl-table-cell">API</th>
+                        <th class="d-none d-xl-table-cell">Atualização</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {% for loteria in loterias %}
+                        <tr>
+                            <td class="d-table-cell d-xl-none">
+                                <div class="row">
+                                    <div class="col-4"><strong>Nome</strong></div>
+                                    <div class="col-8">
+                                        {{ loteria.nome }}
+                                    </div>
+                                    
+                                    <div class="col-4"><strong>Slug</strong></div>
+                                    <div class="col-8">
+                                        {{ loteria.urlSlug }}
+                                    </div>
+                                    
+                                    <div class="col-4"><strong>API</strong></div>
+                                    <div class="col-8">
+                                        {{ loteria.urlApi }}
+                                    </div>
+                                    
+                                    <div class="col-4"><strong>Atualização</strong></div>
+                                    <div class="col-8">
+                                        {{ loteria.updatedAt ? loteria.updatedAt|date('d/m/Y H:i', 'America/Sao_Paulo') : loteria.createdAt|date('d/m/Y H:i', 'America/Sao_Paulo') }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="d-none d-xl-table-cell">
+                                {{ loteria.nome }}
+                            </td>
+                            <td class="d-none d-xl-table-cell">
+                                {{ loteria.urlSlug }}
+                            </td>
+                            <td class="d-none d-xl-table-cell">
+                                {{ loteria.urlApi }}
+                            </td>
+                            <td class="d-none d-xl-table-cell">
+                                {{ loteria.updatedAt ? loteria.updatedAt|date('d/m/Y H:i', 'America/Sao_Paulo') : loteria.createdAt|date('d/m/Y H:i', 'America/Sao_Paulo') }}
+                            </td>
+                            <td class="text-center">Editar</td>
+                        </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center"><twig:ux:icon name="bi:emoji-frown" /> Nenhum registro encontrado</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
