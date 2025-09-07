@@ -62,3 +62,10 @@ a.navbar-bg-bolao:hover {
 .card-header, .card-footer {
     background-color: var(--bolao-background-secondary)!important;
 }
+
+label.required:after{
+   color: black;
+   content: "*";
+   margin-left: 2px;
+   font-weight: bold;
+}

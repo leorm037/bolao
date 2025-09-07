@@ -1,0 +1,74 @@
+{# template/_tableFooter.html.twig #}
+<div class="card-footer">
+    <div class="row">
+        <div class="col-12 col-sm-2">
+            <select name="registros-por-pagina" id="registros-por-pagina" data-controller="registros" data-action="change->registros#redirecionar" class="form-select form-select-sm shadow-sm" aria-label="Quantidade de registro por página"{{ paginacao is empty or paginacao.count == 0 ? ' disabled' }}>
+                <option value="10"{{ app.request.query.get('registros-por-pagina') == 10 ? ' selected' : '' }}>10</option>
+                <option value="25"{{ app.request.query.get('registros-por-pagina') == 25 ? ' selected' : '' }}>25</option>
+                <option value="50"{{ app.request.query.get('registros-por-pagina') == 50 ? ' selected' : '' }}>50</option>
+                <option value="100"{{ app.request.query.get('registros-por-pagina') == 100 ? ' selected' : '' }}>100</option>
+            </select>
+        </div>
+        <div class="col-12 col-sm-7 text-center">
+            <nav aria-label="Paginação">
+                <ul class="pagination justify-content-center pagination-sm m-xl-0">
+
+                    {% if paginacao is empty or paginacao.blocoPrimeiro %}
+                        <li class="page-item disabled" aria-current="page">
+                            <button type="button" class="page-link" title="Bloco anterior de páginas"><twig:ux:icon name="bi:chevron-double-left" /></button>
+                        </li>
+                    {% else %}
+                        <li class="page-item" aria-current="page">
+                            <button type="button" class="page-link" title="Bloco anterior de páginas" data-controller="paginacao" data-paginacao-pagina-value="{{ min(paginacao.paginas) - 1 }}" data-action="click->paginacao#redirecionar"><twig:ux:icon name="bi:chevron-double-left" /></button>
+                        </li>
+                    {% endif %}
+
+                    {% if paginacao is empty or paginacao.paginaPrimeira %}
+                        <li class="page-item disabled">
+                            <button type="button" class="page-link" title="Página anterior"><twig:ux:icon name="bi:chevron-compact-left" /><span class="d-none d-xl-inline-block"> Anterior</span></button>
+                        </li>                            
+                    {% else %}
+                        <li class="page-item">
+                            <button type="button" class="page-link" title="Página anterior" data-controller="paginacao" data-paginacao-pagina-value="{{ paginacao.paginaAnterior }}" data-action="click->paginacao#redirecionar"><twig:ux:icon name="bi:chevron-compact-left" /><span class="d-none d-xl-inline-block">  Anterior</span></button>
+                        </li>
+                    {% endif %}    
+
+                    {% if paginacao is empty or paginacao.paginas is empty %}
+                        <li class="page-item disabled" aria-current="page">
+                            <button type="button" class="page-link">1</button>
+                        </li>
+                    {% else %}
+                        {% for i in paginacao.paginas %}
+                            <li class="page-item {{ (i == paginacao.paginaAtual) ? "active" }}" aria-current="page">
+                                <button type="button" class="page-link" title="Vai para a página {{ i }}" data-controller="paginacao" data-paginacao-pagina-value="{{ i }}" data-action="click->paginacao#redirecionar">{{ i }}</button>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if paginacao is empty or paginacao.paginaUltima %}                                                
+                        <li class="page-item disabled">
+                            <button type="button" class="page-link" title="Próxima página"><span class="d-none d-xl-inline-block">Próximo </span><twig:ux:icon name="bi:chevron-compact-right" /></button>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <button type="button" class="page-link" title="Próxima página" data-controller="paginacao" data-paginacao-pagina-value="{{ paginacao.paginaProxima }}" data-action="click->paginacao#redirecionar"><span class="d-none d-xl-inline-block">Próximo </span><twig:ux:icon name="bi:chevron-compact-right" /></button>
+                        </li>
+                    {% endif %}
+
+                    {% if paginacao is empty or paginacao.blocoUltimo %}
+                        <li class="page-item disabled" aria-current="page">
+                            <button type="button" class="page-link" title="Próximo bloco de páginas"><twig:ux:icon name="bi:chevron-double-right" /></button>
+                        </li>
+                    {% else %}
+                        <li class="page-item" aria-current="page">
+                            <button type="button" class="page-link" title="Próximo bloco de páginas" data-controller="paginacao" data-paginacao-pagina-value="{{ max(paginacao.paginas) + 1 }}" data-action="click->paginacao#redirecionar"><twig:ux:icon name="bi:chevron-double-right" /></button>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        <div class="col-12 col-sm-3 mt-1 text-sm-end text-center">
+            {{ paginacao.count|default(0)|number_format(0, ',', '.') }} registro(s).
+        </div>
+    </div>
+</div>

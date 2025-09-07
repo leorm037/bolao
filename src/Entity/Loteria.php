@@ -1,9 +1,17 @@
 <?php
 
+/*
+ *     This file is part of Bolão.
+ *
+ *     (c) Leonardo Rodrigues Marques <leonardo@rodriguesmarques.com.br>
+ *
+ *     This source file is subject to the MIT license that is bundled
+ *     with this source code in the file LICENSE.
+ */
+
 namespace App\Entity;
 
 use App\Repository\LoteriaRepository;
-use DateTime;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\UniqueConstraint(name: 'uuid_UNIQUE', columns: ['uuid'])]
 #[ORM\UniqueConstraint(name: 'nome_UNIQUE', columns: ['nome'])]
 #[ORM\UniqueConstraint(name: 'uuid_UNIQUE', columns: ['uuid'])]
-#[ORM\UniqueConstraint(name: 'slug_UNIQUE', columns: ['slug_url'])]
+#[ORM\UniqueConstraint(name: 'slug_UNIQUE', columns: ['url_slug'])]
 #[ORM\HasLifecycleCallbacks]
 class Loteria extends AbstractEntity
 {

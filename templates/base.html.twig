@@ -44,7 +44,8 @@
             </nav>
         </header>
 
-        <main class="mb-3">  
+        <main class="mb-3">
+            {% include '_flash.html.twig' %}
             <div class="container-fluid">
                 {% block body %}{% endblock %}
             </div>
@@ -55,6 +56,7 @@
         {% block javascripts_footer %}
             <script src="{{ asset('jquery/jquery.min.js') }}"></script>
             <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+            <script src="{{ asset('loadingoverlay/loadingoverlay.min.js') }}"></script>
         {% endblock %}
     </body>
 </html>

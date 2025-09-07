@@ -5,6 +5,7 @@ framework:
             assets/: ''
             node_modules/bootstrap/dist/: 'bootstrap'
             node_modules/jquery/dist/: 'jquery'
+            node_modules/gasparesganga-jquery-loading-overlay/dist/: 'loadingoverlay'
         missing_import_mode: strict
 
 when@prod:

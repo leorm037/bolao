@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+// https://patorjk.com/software/taag/?p=display&f=Big&t=Bolao&x=none
+print <<< ASCII
+
+  ____        _             
+ |  _ \      | |            
+ | |_) | ___ | | __ _  ___  
+ |  _ < / _ \| |/ _` |/ _ \ 
+ | |_) | (_) | | (_| | (_) |
+ |____/ \___/|_|\__,_|\___/ 
+
+
+
+ASCII;

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ *     This file is part of Bolão.
+ *
+ *     (c) Leonardo Rodrigues Marques <leonardo@rodriguesmarques.com.br>
+ *
+ *     This source file is subject to the MIT license that is bundled
+ *     with this source code in the file LICENSE.
+ */
+
 namespace App\Controller;
 
 use App\Repository\LoteriaRepository;
@@ -10,12 +19,9 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/loteria', name: 'app_loteria_')]
 final class LoteriaController extends AbstractController
 {
-
     public function __construct(
-            private LoteriaRepository $repository
-    )
-    {
-        
+        private LoteriaRepository $repository,
+    ) {
     }
 
     #[Route('', name: 'index')]
@@ -24,7 +30,7 @@ final class LoteriaController extends AbstractController
         $loterias = $this->repository->list();
 
         return $this->render('loteria/index.html.twig', [
-                    'loterias' => $loterias
+            'loterias' => $loterias,
         ]);
     }
 

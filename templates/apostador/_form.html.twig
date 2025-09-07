@@ -1,0 +1,55 @@
+{# templates/apostador/_form.html.twig #}
+<div class="mb-3">
+    {{ form_label(form.nome) }}
+    <div class="input-group">
+        <div class="input-group-text"><twig:ux:icon name="bi:alphabet" /></div>
+        {{ form_widget(form.nome) }}
+    </div>
+    {{ form_errors(form.nome) }}
+    {{ form_help(form.nome) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.email) }}
+    <div class="input-group">
+        <div class="input-group-text"><twig:ux:icon name="bi:envelope-at" /></div>
+            {{ form_widget(form.email) }}
+    </div>
+    {{ form_errors(form.email) }}
+    {{ form_help(form.email) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.pix) }}
+    <div class="input-group">
+        <div class="input-group-text"><twig:ux:icon name="ic:baseline-pix" /></div>
+        {{ form_widget(form.pix) }}
+    </div>
+    {{ form_errors(form.pix) }}
+    {{ form_help(form.pix) }}
+</div>
+
+<div class="row">
+    <div class="col-xl-6 col-12">
+        <div class="mb-3">
+            {{ form_label(form.telefone) }}
+            <div class="input-group">
+                <div class="input-group-text"><twig:ux:icon name="bi:telephone" /></div>
+                {{ form_widget(form.telefone) }}
+            </div>
+            {{ form_errors(form.telefone) }}
+            {{ form_help(form.telefone) }}
+        </div>
+    </div>
+    <div class="col-xl-6 col-12">
+        <div class="mb-3">
+            {{ form_label(form.celular) }}
+            <div class="input-group">
+                <div class="input-group-text"><twig:ux:icon name="bi:phone" /></div>
+                {{ form_widget(form.celular) }}
+            </div>
+            {{ form_errors(form.celular) }}
+            {{ form_help(form.celular) }}
+        </div>
+    </div>
+</div>

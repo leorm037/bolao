@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "bootstrap": "^5.3.8",
+    "gasparesganga-jquery-loading-overlay": "^2.1.7",
     "jquery": "^3.7.1"
   }
 }

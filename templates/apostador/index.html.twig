@@ -1,0 +1,113 @@
+{# templates/apostador/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} :: Apostadores
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active"><twig:ux:icon name="material-symbols:groups" /> Apostadores</li>
+{% endblock %}
+
+{% block body %}
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h4 m-0">
+                        <twig:ux:icon name="material-symbols:groups" /> Apostadores
+                    </h1>
+                </div>
+                <div>
+                    <a data-loading="true" href="{{ path('app_apostador_new') }}" class="btn btn-outline-secondary btn-sm bg-gradient shadow-sm">
+                        <twig:ux:icon name="bi:cloud-arrow-down" /> Exportar
+                    </a>
+                    
+                    <a data-loading="true" href="{{ path('app_apostador_new') }}" class="btn btn-outline-secondary btn-sm bg-gradient shadow-sm">
+                        <twig:ux:icon name="bi:cloud-arrow-up" /> Importar
+                    </a>
+                        
+                    <a data-loading="true" href="{{ path('app_apostador_new') }}" class="btn btn-secondary btn-sm bg-gradient shadow-sm">
+                        <twig:ux:icon name="bi:plus-circle" /> Novo
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-hover table-bordered shadow-sm">
+                <thead>
+                    <tr>
+                        <th class="d-table-cell d-xl-none">Apostador</th>
+                        <th class="d-none d-xl-table-cell">Nome</th>
+                        <th class="d-none d-xl-table-cell">E-mail</th>
+                        <th class="d-none d-xl-table-cell">Contato</th>
+                        <th class="d-none d-xl-table-cell">Atualização</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {% for apostador in apostadores %}
+                        <tr>
+                            <td class="d-table-cell d-xl-none">
+                                <div class="row">
+                                    <div class="col-4"><strong>Nome</strong></div>
+                                    <div class="col-8">
+                                        {{ apostador.nome }}
+                                    </div>
+
+                                    <div class="col-4"><strong>E-mail</strong></div>
+                                    <div class="col-8">
+                                        {{ apostador.email }}
+                                    </div>
+
+                                    <div class="col-4"><strong>Contato</strong></div>
+                                    <div class="col-8">
+                                        {% if apostador.celular %}
+                                            {{ apostador.celular }}
+                                        {% else %}    
+                                            {{ apostador.telefone }}
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="col-4"><strong>Atualização</strong></div>
+                                    <div class="col-8">
+                                        {{ apostador.updatedAt ? apostador.updatedAt|date('d/m/Y H:i', 'America/Sao_Paulo') : apostador.createdAt|date('d/m/Y H:i', 'America/Sao_Paulo') }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="d-none d-xl-table-cell align-middle">{{ apostador.nome }}</td>
+                            <td class="d-none d-xl-table-cell align-middle">{{ apostador.email }}</td>
+                            <td class="d-none d-xl-table-cell align-middle">
+                                {% if apostador.celular %}
+                                    {{ apostador.celular }}
+                                {% else %}    
+                                    {{ apostador.telefone }}
+                                {% endif %}
+                            </td>
+                            <td class="d-none d-xl-table-cell align-middle">
+                                {{ apostador.updatedAt ? apostador.updatedAt|date('d/m/Y H:i', 'America/Sao_Paulo') : apostador.createdAt|date('d/m/Y H:i', 'America/Sao_Paulo') }}
+                            </td>
+                            <td class="text-center align-middle">
+                                <div class="dropdown dropstart">
+                                    <button class="btn btn-sm btn-secondary bg-gradient shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <twig:ux:icon name="bi:three-dots-vertical" />
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a data-loading="true" class="dropdown-item" href="#"><twig:ux:icon name="bi:pencil" /> Alterar</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a data-loading="true" class="dropdown-item" href="#"><twig:ux:icon name="bi:trash3" /> Excluir</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center"><twig:ux:icon name="bi:emoji-frown" /> Nenhum registro encontrado</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {{ include('_tableFooter.html.twig', {'paginacao': apostadores}) }}
+    </div>
+{% endblock %}

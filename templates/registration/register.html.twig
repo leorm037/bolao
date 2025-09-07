@@ -1,0 +1,74 @@
+{# templates/registration/register.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} :: Inscreva-se{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+        <div class="row justify-content-md-center">
+            <div class="col col-lg-6">
+
+                {% for flash_error in app.flashes('verify_email_error') %}
+                    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                {% endfor %}
+
+                <div class="card shadow">
+                    <div class="card-header bg-gradient">
+                        <h1 class="h4 m-0"><twig:ux:icon name="bi:person-add" /> Inscrição</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="mb-3 col-12">
+                                {{ form_label(form.nome) }}
+                                <div class="input-group">
+                                    <span class="input-group-text" id="nome-icon"><twig:ux:icon name="bi:person" /></span>
+                                    {{ form_widget(form.nome) }}
+                                </div>
+                                {{ form_errors(form.nome) }}
+                                {{ form_help(form.nome) }}
+                            </div>
+                            <div class="mb-3 col-12">
+                                {{ form_label(form.email) }}
+                                <div class="input-group">
+                                    <span class="input-group-text" id="email-icone"><twig:ux:icon name="bi:envelope-at" /></span>
+                                    {{ form_widget(form.email) }}
+                                </div>
+                                {{ form_errors(form.email) }}
+                                {{ form_help(form.email) }}
+                            </div>
+                            <div class="mb-3 col-12 col-md-6">
+                                {{ form_label(form.plainPassword.first) }}
+                                <div class="input-group">
+                                    <span class="input-group-text" id="plainPassword-first-icone"><twig:ux:icon name="bi:key" /></span>
+                                    {{ form_widget(form.plainPassword.first) }}
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                {{ form_label(form.plainPassword.second) }}
+                                <div class="input-group">
+                                    <span class="input-group-text" id="plainPassword-second-icone"><twig:ux:icon name="bi:key" /></span>
+                                    {{ form_widget(form.plainPassword.second) }}
+                                </div>                                
+                            </div>
+                            <div class="mb-3 col-12">
+                                {{ form_errors(form.plainPassword.first) }}
+                                {{ form_help(form.plainPassword.first) }}
+                                {{ form_errors(form.plainPassword.second) }}
+                                {{ form_help(form.plainPassword.second) }}
+                            </div>
+                            <div class="col-12">
+                                {{ form_row(form.agreeTerms) }}
+                            </div>
+                        </div>
+                    </div>
+                    {{ include('_formFooter.html.twig', {'voltar_href': path('app_login')}) }}
+                </div>
+            </div>
+        </div>    
+    
+
+        
+
+
+    {{ form_end(form) }}
+{% endblock %}

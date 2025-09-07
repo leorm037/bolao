@@ -1,0 +1,21 @@
+# Salvar este arquivo em 
+# /etc/systemd/system/symfony-messenger-bolao.service
+
+# Ativar
+# sudo systemctl daemon-reload
+# sudo systemctl enable symfony-messenger-bolao
+# sudo systemctl start symfony-messenger-bolao
+
+[Unit]
+Description=Symfony Messenger Worker - Bolao
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/php /var/www/bolao/bin/console messenger:consume async --time-limit=3600 --memory-limit=128M --no-interaction
+WorkingDirectory=/var/www/bolao
+User=www-data
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

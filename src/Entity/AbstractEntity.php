@@ -1,7 +1,7 @@
 <?php
 
 /*
- *     This file is part of Loteria.
+ *     This file is part of Bolão.
  *
  *     (c) Leonardo Rodrigues Marques <leonardo@rodriguesmarques.com.br>
  *
