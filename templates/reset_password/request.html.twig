@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} :: Recuperar senha{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active"><twig:ux:icon name="bi:key-fill" /><i class="bi bi-key-fill"></i> Recuperar senha</li>
+{% endblock %}
+
+{% block body %}
+    {{ form_start(requestForm, {'attr':{'data-loading':'true'}}) }}
+        <div class="row justify-content-md-center">
+            <div class="col col-xl-4 col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h1 class="h4 m-0"><twig:ux:icon name="bi:key-fill" /> Recuperar senha</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            {{ form_label(requestForm.email) }}
+                            <div class="input-group">
+                                <div class="input-group-text"><twig:ux:icon name="bi:envelope-at" /></div>
+                                    {{ form_widget(requestForm.email) }}
+                            </div>
+                            {{ form_errors(requestForm.email) }}
+                            {{ form_help(requestForm.email) }}
+                        </div>
+                        <p class="card-text">
+                            <small class="text-body-secondary">
+                                Informe o seu endereço de e-mail e nós enviaremos
+                                uma mensagem com o link para recuperar a sua senha.
+                            </small>
+                        </p>
+                    </div>
+                    <div class="card-footer bg-gradient d-flex justify-content-between">
+                        <div>
+                            <a data-loading="true" class="btn btn-outline-secondary bg-gradient btn-sm" href="{{ path('app_login') }}"><twig:ux:icon name="bi:arrow-left" /> Voltar</a>
+                        </div>
+                        <div>
+                            <button type="reset" class="btn btn-secondary bg-gradient btn-sm shadow"><twig:ux:icon name="carbon:clean" /> Limpar</button>
+                                <button type="submit" class="btn btn-primary bg-gradient btn-sm shadow"><twig:ux:icon name="bi:floppy" /> Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ form_end(requestForm) }}
+{% endblock %}

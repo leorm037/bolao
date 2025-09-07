@@ -31,6 +31,18 @@ security:
             login_throttling:
                 max_attempts: 3          # per minute ...
                 # interval: '15 minutes' # ... or in a custom period
+                
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                signature_properties: ['password', 'updatedAt']
+                token_provider:
+                    doctrine: true
+                    
+                # by default, the feature is enabled by checking a
+                # checkbox in the login form (see below), uncomment the
+                # following line to always enable it.
+                #always_remember_me: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -41,7 +53,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/loteria, roles: ROLE_ADMIN }
+        - { path: ^/concurso, roles: ROLE_USER }
+        - { path: ^/bolao, roles: ROLE_USER }
+        - { path: ^/apostador, roles: ROLE_USER }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
