@@ -13,7 +13,7 @@ export default class extends Controller {
 
         const url = new URL(window.location.href);
 
-        url.search = "";
+        url.searchParams.delete('pagina');
 
         url.searchParams.set("registros-por-pagina", registros);
         

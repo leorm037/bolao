@@ -12,8 +12,8 @@
 namespace App\Entity;
 
 use App\Repository\UsuarioRepository;
+use DateTime;
 use DateTimeImmutable;
-use DateTimeInterface;
 use Deprecated;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -27,8 +27,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity(fields: ['email'], message: 'Já existe uma conta com este e-mail')]
-class Usuario extends AbstractEntity implements UserInterface, PasswordAuthenticatedUserInterface
-{
+class Usuario extends AbstractEntity implements UserInterface, PasswordAuthenticatedUserInterface {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -57,7 +57,7 @@ class Usuario extends AbstractEntity implements UserInterface, PasswordAuthentic
     protected ?DateTimeImmutable $created_at = null;
 
     #[ORM\Column(nullable: true)]
-    protected ?DateTimeInterface $updated_at = null;
+    protected ?DateTime $updated_at = null;
 
     /**
      * @var Collection<int, Arquivo>
@@ -74,24 +74,20 @@ class Usuario extends AbstractEntity implements UserInterface, PasswordAuthentic
     #[ORM\OneToMany(targetEntity: Apostador::class, mappedBy: 'usuario', orphanRemoval: true)]
     private Collection $apostadores;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->arquivos = new ArrayCollection();
         $this->apostadores = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getEmail(): ?string
-    {
+    public function getEmail(): ?string {
         return $this->email;
     }
 
-    public function setEmail(string $email): static
-    {
+    public function setEmail(string $email): static {
         $this->email = $email;
 
         return $this;
@@ -102,16 +98,14 @@ class Usuario extends AbstractEntity implements UserInterface, PasswordAuthentic
      *
      * @see UserInterface
      */
-    public function getUserIdentifier(): string
-    {
+    public function getUserIdentifier(): string {
         return (string) $this->email;
     }
 
     /**
      * @see UserInterface
      */
-    public function getRoles(): array
-    {
+    public function getRoles(): array {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
@@ -122,8 +116,7 @@ class Usuario extends AbstractEntity implements UserInterface, PasswordAuthentic
     /**
      * @param list<string> $roles
      */
-    public function setRoles(array $roles): static
-    {
+    public function setRoles(array $roles): static {
         $this->roles = $roles;
 
         return $this;
@@ -132,13 +125,11 @@ class Usuario extends AbstractEntity implements UserInterface, PasswordAuthentic
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): ?string
-    {
+    public function getPassword(): ?string {
         return $this->password;
     }
 
-    public function setPassword(string $password): static
-    {
+    public function setPassword(string $password): static {
         $this->password = $password;
 
         return $this;
@@ -147,51 +138,43 @@ class Usuario extends AbstractEntity implements UserInterface, PasswordAuthentic
     /**
      * Ensure the session doesn't contain actual password hashes by CRC32C-hashing them, as supported since Symfony 7.3.
      */
-    public function __serialize(): array
-    {
+    public function __serialize(): array {
         $data = (array) $this;
-        $data["\0".self::class."\0password"] = hash('crc32c', $this->password);
+        $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
 
         return $data;
     }
 
     #[Deprecated]
-    public function eraseCredentials(): void
-    {
+    public function eraseCredentials(): void {
         // @deprecated, to be removed when upgrading to Symfony 8
     }
 
-    public function getNome(): ?string
-    {
+    public function getNome(): ?string {
         return $this->nome;
     }
 
-    public function setNome(string $nome): static
-    {
+    public function setNome(string $nome): static {
         $this->nome = $nome;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeImmutable
-    {
+    public function getCreatedAt(): ?DateTimeImmutable {
         return $this->created_at;
     }
 
-    public function setCreatedAt(DateTimeImmutable $created_at): static
-    {
+    public function setCreatedAt(DateTimeImmutable $created_at): static {
         $this->created_at = $created_at;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeInterface
-    {
+    public function getUpdatedAt(): ?DateTime {
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(?DateTimeInterface $updated_at): static
-    {
+    public function setUpdatedAt(?DateTime $updated_at): static {
         $this->updated_at = $updated_at;
 
         return $this;
@@ -200,13 +183,11 @@ class Usuario extends AbstractEntity implements UserInterface, PasswordAuthentic
     /**
      * @return Collection<int, Arquivo>
      */
-    public function getArquivos(): Collection
-    {
+    public function getArquivos(): Collection {
         return $this->arquivos;
     }
 
-    public function addArquivo(Arquivo $arquivo): static
-    {
+    public function addArquivo(Arquivo $arquivo): static {
         if (!$this->arquivos->contains($arquivo)) {
             $this->arquivos->add($arquivo);
             $arquivo->setUsuario($this);
@@ -215,8 +196,7 @@ class Usuario extends AbstractEntity implements UserInterface, PasswordAuthentic
         return $this;
     }
 
-    public function removeArquivo(Arquivo $arquivo): static
-    {
+    public function removeArquivo(Arquivo $arquivo): static {
         if ($this->arquivos->removeElement($arquivo)) {
             // set the owning side to null (unless already changed)
             if ($arquivo->getUsuario() === $this) {
@@ -227,13 +207,11 @@ class Usuario extends AbstractEntity implements UserInterface, PasswordAuthentic
         return $this;
     }
 
-    public function isVerified(): bool
-    {
+    public function isVerified(): bool {
         return $this->isVerified;
     }
 
-    public function setIsVerified(bool $isVerified): static
-    {
+    public function setIsVerified(bool $isVerified): static {
         $this->isVerified = $isVerified;
 
         return $this;
@@ -242,13 +220,11 @@ class Usuario extends AbstractEntity implements UserInterface, PasswordAuthentic
     /**
      * @return Collection<int, Apostador>
      */
-    public function getApostadores(): Collection
-    {
+    public function getApostadores(): Collection {
         return $this->apostadores;
     }
 
-    public function addApostadore(Apostador $apostadore): static
-    {
+    public function addApostadore(Apostador $apostadore): static {
         if (!$this->apostadores->contains($apostadore)) {
             $this->apostadores->add($apostadore);
             $apostadore->setUsuario($this);
@@ -257,8 +233,7 @@ class Usuario extends AbstractEntity implements UserInterface, PasswordAuthentic
         return $this;
     }
 
-    public function removeApostadore(Apostador $apostadore): static
-    {
+    public function removeApostadore(Apostador $apostadore): static {
         if ($this->apostadores->removeElement($apostadore)) {
             // set the owning side to null (unless already changed)
             if ($apostadore->getUsuario() === $this) {

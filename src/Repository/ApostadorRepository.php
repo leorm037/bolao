@@ -13,6 +13,7 @@ namespace App\Repository;
 
 use App\DTO\PaginacaoDTO;
 use App\Entity\Apostador;
+use App\Entity\Usuario;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,16 +21,13 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Apostador>
  */
-class ApostadorRepository extends ServiceEntityRepository
-{
+class ApostadorRepository extends ServiceEntityRepository {
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Apostador::class);
     }
 
-    public function save(Apostador $apostador, bool $flush = true): void
-    {
+    public function save(Apostador $apostador, bool $flush = true): void {
         $this->getEntityManager()->persist($apostador);
 
         if ($flush) {
@@ -43,17 +41,25 @@ class ApostadorRepository extends ServiceEntityRepository
      * @param int $paginaAtual
      * @return PaginacaoDTO|null
      */
-    public function list(int $registrosPorPagina = 10, int $paginaAtual = 1)
-    {
+    public function list(Usuario $usuario, int $registrosPorPagina = 10, int $paginaAtual = 1, ?string $filter_nome = null) {
         $registros = (!\in_array($registrosPorPagina, [10, 25, 50, 100])) ? 10 : $registrosPorPagina;
 
         $pagina = ($paginaAtual - 1) * $registrosPorPagina;
 
         $query = $this->createQueryBuilder('a')
+                ->andWhere('a.usuario = :usuario')
+                ->setParameter('usuario', $usuario)
                 ->orderBy('a.nome', 'ASC')
                 ->setFirstResult($pagina)
                 ->setMaxResults($registros)
         ;
+
+        if ($filter_nome) {
+            $query
+                    ->andWhere('a.nome LIKE :filter_nome')
+                    ->setParameter('filter_nome', "%" . $filter_nome . "%")
+            ;
+        }
 
         return new PaginacaoDTO(new Paginator($query), $registrosPorPagina, $paginaAtual);
     }

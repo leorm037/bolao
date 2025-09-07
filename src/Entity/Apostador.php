@@ -15,13 +15,14 @@ use App\Repository\ApostadorRepository;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ApostadorRepository::class)]
-#[UniqueEntity(fields: ['usuario','nome'], message: 'Já existe um apostador com este nome.')]
+#[UniqueEntity(fields: ['usuario', 'nome'], message: 'Já existe um apostador com este nome.')]
 #[ORM\HasLifecycleCallbacks]
-class Apostador extends AbstractEntity
-{
+class Apostador extends AbstractEntity {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -54,116 +55,97 @@ class Apostador extends AbstractEntity
     protected ?DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    protected ?DateTimeInterface $updatedAt = null;
+    protected ?DateTime $updatedAt = null;
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getNome(): ?string
-    {
+    public function getNome(): ?string {
         return $this->nome;
     }
 
-    public function setNome(string $nome): static
-    {
+    public function setNome(string $nome): static {
         $this->nome = $nome;
 
         return $this;
     }
 
-    public function getUuid(): ?Uuid
-    {
+    public function getUuid(): ?Uuid {
         return $this->uuid;
     }
 
-    public function setUuid(Uuid $uuid): static
-    {
+    public function setUuid(Uuid $uuid): static {
         $this->uuid = $uuid;
 
         return $this;
     }
 
-    public function getUsuario(): ?Usuario
-    {
+    public function getUsuario(): ?Usuario {
         return $this->usuario;
     }
 
-    public function setUsuario(?Usuario $usuario): static
-    {
+    public function setUsuario(?Usuario $usuario): static {
         $this->usuario = $usuario;
 
         return $this;
     }
 
-    public function getEmail(): ?string
-    {
+    public function getEmail(): ?string {
         return $this->email;
     }
 
-    public function setEmail(?string $email): static
-    {
+    public function setEmail(?string $email): static {
         $this->email = $email;
 
         return $this;
     }
 
-    public function getPix(): ?string
-    {
+    public function getPix(): ?string {
         return $this->pix;
     }
 
-    public function setPix(?string $pix): static
-    {
+    public function setPix(?string $pix): static {
         $this->pix = $pix;
 
         return $this;
     }
 
-    public function getTelefone(): ?string
-    {
+    public function getTelefone(): ?string {
         return $this->telefone;
     }
 
-    public function setTelefone(?string $telefone): static
-    {
+    public function setTelefone(?string $telefone): static {
         $this->telefone = $telefone;
 
         return $this;
     }
 
-    public function getCelular(): ?string
-    {
+    public function getCelular(): ?string {
         return $this->celular;
     }
 
-    public function setCelular(?string $celular): static
-    {
+    public function setCelular(?string $celular): static {
         $this->celular = $celular;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeImmutable
-    {
+    public function getCreatedAt(): ?DateTimeImmutable {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): static
-    {
+    public function setCreatedAt(DateTimeImmutable $createdAt): static {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeInterface
-    {
+    public function getUpdatedAt(): ?DateTime {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?DateTimeInterface $updatedAt): static
-    {
+    public function setUpdatedAt(?DateTime $updatedAt): static {
         $this->updatedAt = $updatedAt;
 
         return $this;

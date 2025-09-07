@@ -33,6 +33,29 @@
                 </div>
             </div>
         </div>
+        <div class="card-body border-bottom">
+            <form name="apostador_filter" id='apostador_filter' method="get" data-loading="true">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="filter_nome" class="form-label">Nome</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="bolao_icon"><twig:ux:icon name="bi:alphabet" /></span>
+                                <input type="text" name="filter_nome" value="{{ filter_nome }}" class="form-control" id="filter_nome" aria-label="Nome">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-end align-items-end">
+                        <div>
+                            <button type="button" id="filter_button_limpar" class="btn btn-secondary btn-sm bg-gradient shadow-sm me-1"><twig:ux:icon name="carbon:clean" /> Limpar</button>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary btn-sm bg-gradient shadow-sm"><twig:ux:icon name="bi:funnel-fill" /> Filtrar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
         <div class="card-body">
             <table class="table table-striped table-hover table-bordered shadow-sm">
                 <thead>
@@ -93,7 +116,7 @@
                                         <twig:ux:icon name="bi:three-dots-vertical" />
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a data-loading="true" class="dropdown-item" href="#"><twig:ux:icon name="bi:pencil" /> Alterar</a></li>
+                                        <li><a data-loading="true" class="dropdown-item" href="{{ path('app_apostador_edit', {'uuid': apostador.uuid}) }}"><twig:ux:icon name="bi:pencil" /> Alterar</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a data-loading="true" class="dropdown-item" href="#"><twig:ux:icon name="bi:trash3" /> Excluir</a></li>
                                     </ul>
@@ -110,4 +133,9 @@
         </div>
         {{ include('_tableFooter.html.twig', {'paginacao': apostadores}) }}
     </div>
+{% endblock %}
+
+{% block javascripts_footer %}
+    {{ parent() }}
+    <script src="{{ asset('apostador/index.js') }}"></script>
 {% endblock %}
