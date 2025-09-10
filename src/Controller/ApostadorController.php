@@ -14,10 +14,13 @@ namespace App\Controller;
 use App\Entity\Apostador;
 use App\Form\ApostadorFormType;
 use App\Repository\ApostadorRepository;
+use App\Service\ApostadorService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -25,7 +28,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class ApostadorController extends AbstractController {
 
     public function __construct(
-            private ApostadorRepository $repository
+            private ApostadorRepository $repository,
+            private ApostadorService $service
     ) {
         
     }
@@ -99,5 +103,29 @@ final class ApostadorController extends AbstractController {
         }
 
         return $this->render('apostador/edit.html.twig', ['form' => $form]);
+    }
+
+    #[Route('/export', name: 'export', methods: ['GET'])]
+    public function export(): StreamedResponse {
+        $usuario = $this->getUser();
+        $apostadores = $this->repository->list($usuario)->getIterator();
+        
+        $service = $this->service;
+        
+        $response = new StreamedResponse(function () use ($service, $apostadores){
+            $service->exportar($apostadores);
+        });
+        
+        $fileName = "apostador-" . date('Y-m-d-H-i-s');
+        
+        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $response->headers->set('Content-Disposition', $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $fileName.'.xlsx'
+        ));
+
+        $response->headers->set('Cache-Control', 'max-age=0');
+
+        return $response;
     }
 }

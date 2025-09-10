@@ -19,17 +19,26 @@
                     </h1>
                 </div>
                 <div>
-                    <a data-loading="true" href="{{ path('app_apostador_new') }}" class="btn btn-outline-secondary btn-sm bg-gradient shadow-sm">
-                        <twig:ux:icon name="bi:cloud-arrow-down" /> Exportar
-                    </a>
-                    
-                    <a data-loading="true" href="{{ path('app_apostador_new') }}" class="btn btn-outline-secondary btn-sm bg-gradient shadow-sm">
-                        <twig:ux:icon name="bi:cloud-arrow-up" /> Importar
-                    </a>
-                        
-                    <a data-loading="true" href="{{ path('app_apostador_new') }}" class="btn btn-secondary btn-sm bg-gradient shadow-sm">
-                        <twig:ux:icon name="bi:plus-circle" /> Novo
-                    </a>
+                    <div class="btn-group">
+                        <a data-loading="true" href="{{ path('app_apostador_new') }}" class="btn btn-secondary btn-sm bg-gradient shadow-sm">
+                            <twig:ux:icon name="bi:plus-circle" /> Novo
+                        </a>
+                        <button type="button" class="btn btn-secondary btn-sm bg-gradient shadow-sm dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Novo apostador</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ path('app_apostador_export') }}" class="dropdown-item">
+                                    <twig:ux:icon name="bi:cloud-arrow-down" /> Exportar
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('app_apostador_new') }}" class="dropdown-item">
+                                    <twig:ux:icon name="bi:cloud-arrow-up" /> Importar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -71,32 +80,27 @@
                 <tbody class="table-group-divider">
                     {% for apostador in apostadores %}
                         <tr>
-                            <td class="d-table-cell d-xl-none">
-                                <div class="row">
-                                    <div class="col-4"><strong>Nome</strong></div>
-                                    <div class="col-8">
-                                        {{ apostador.nome }}
-                                    </div>
-
-                                    <div class="col-4"><strong>E-mail</strong></div>
-                                    <div class="col-8">
-                                        {{ apostador.email }}
-                                    </div>
-
-                                    <div class="col-4"><strong>Contato</strong></div>
-                                    <div class="col-8">
-                                        {% if apostador.celular %}
-                                            {{ apostador.celular }}
-                                        {% else %}    
-                                            {{ apostador.telefone }}
-                                        {% endif %}
-                                    </div>
-
-                                    <div class="col-4"><strong>Atualização</strong></div>
-                                    <div class="col-8">
-                                        {{ apostador.updatedAt ? apostador.updatedAt|date('d/m/Y H:i', 'America/Sao_Paulo') : apostador.createdAt|date('d/m/Y H:i', 'America/Sao_Paulo') }}
-                                    </div>
-                                </div>
+                            <td class="d-table-cell d-xl-none text-break">
+                                <p>
+                                    <strong>Nome</strong><br/>
+                                    {{ apostador.nome }}
+                                </p>
+                                <p>
+                                    <strong>E-mail</strong><br/>
+                                    {{ apostador.email }}
+                                </p>
+                                <p>
+                                    <strong>Contato</strong><br/>
+                                    {% if apostador.celular %}
+                                        {{ apostador.celular }}
+                                    {% else %}    
+                                        {{ apostador.telefone }}
+                                    {% endif %}
+                                </p>
+                                <p>
+                                    <strong>Atualização</strong><br/>
+                                    {{ apostador.updatedAt ? apostador.updatedAt|date('d/m/Y H:i', 'America/Sao_Paulo') : apostador.createdAt|date('d/m/Y H:i', 'America/Sao_Paulo') }}
+                                </p>
                             </td>
                             <td class="d-none d-xl-table-cell align-middle">{{ apostador.nome }}</td>
                             <td class="d-none d-xl-table-cell align-middle">{{ apostador.email }}</td>

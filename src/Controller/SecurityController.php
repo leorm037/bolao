@@ -31,6 +31,10 @@ class SecurityController extends AbstractController {
         $error = $authenticationUtils->getLastAuthenticationError();
 
         $lastUsername = $authenticationUtils->getLastUsername();
+        
+        if ($this->getUser()) {
+            return $this->redirectToRoute("app_home");
+        }
 
         if ($error) {
             $message = "Credenciais inválidas.";
