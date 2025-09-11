@@ -12,8 +12,11 @@
 namespace App\Controller;
 
 use App\Entity\Apostador;
+use App\Enum\AlertMessageEnum;
+use App\Enum\TokenEnum;
 use App\Form\ApostadorFormType;
 use App\Repository\ApostadorRepository;
+use App\Security\Voter\ApostadorVoter;
 use App\Service\ApostadorService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,9 +26,11 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Uid\Uuid;
 
 #[Route('/apostador', name: 'app_apostador_')]
-final class ApostadorController extends AbstractController {
+final class ApostadorController extends AbstractController
+{
 
     public function __construct(
             private ApostadorRepository $repository,
@@ -73,9 +78,9 @@ final class ApostadorController extends AbstractController {
             try {
                 $this->repository->save($apostador);
 
-                $this->addFlash('success', \sprintf('Apostador "%s" foi cadastrado com sucesso.', $apostador->getNome()));
+                $this->addFlash(AlertMessageEnum::SUCCESS->value, \sprintf('Apostador "%s" foi cadastrado com sucesso.', $apostador->getNome()));
             } catch (UniqueConstraintViolationException $e) {
-                $this->addFlash('danger', \sprintf('Apostador "%s" já está cadastrado.', $apostador->getNome()));
+                $this->addFlash(AlertMessageEnum::DANGER->value, \sprintf('Apostador "%s" já está cadastrado.', $apostador->getNome()));
             }
 
             return $this->redirectToRoute('app_apostador_index', [], Response::HTTP_SEE_OTHER);
@@ -94,9 +99,9 @@ final class ApostadorController extends AbstractController {
             try {
                 $this->repository->save($apostador);
 
-                $this->addFlash('success', \sprintf('Apostador "%s" foi alterado com sucesso.', $apostador->getNome()));
+                $this->addFlash(AlertMessageEnum::SUCCESS->value, \sprintf('Apostador "%s" foi alterado com sucesso.', $apostador->getNome()));
             } catch (UniqueConstraintViolationException $e) {
-                $this->addFlash('danger', \sprintf('Apostador "%s" com o mesmo nome já está cadastrado.', $apostador->getNome()));
+                $this->addFlash(AlertMessageEnum::DANGER->value, \sprintf('Apostador "%s" com o mesmo nome já está cadastrado.', $apostador->getNome()));
             }
 
             return $this->redirectToRoute('app_apostador_index', [], Response::HTTP_SEE_OTHER);
@@ -109,23 +114,52 @@ final class ApostadorController extends AbstractController {
     public function export(): StreamedResponse {
         $usuario = $this->getUser();
         $apostadores = $this->repository->list($usuario)->getIterator();
-        
+
         $service = $this->service;
-        
-        $response = new StreamedResponse(function () use ($service, $apostadores){
-            $service->exportar($apostadores);
-        });
-        
+
+        $response = new StreamedResponse(function () use ($service, $apostadores) {
+                    $service->exportar($apostadores);
+                });
+
         $fileName = "apostador-" . date('Y-m-d-H-i-s');
-        
+
         $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         $response->headers->set('Content-Disposition', $response->headers->makeDisposition(
-            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            $fileName.'.xlsx'
-        ));
+                        ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                        $fileName . '.xlsx'
+                ));
 
         $response->headers->set('Cache-Control', 'max-age=0');
 
         return $response;
+    }
+
+    #[Route('/delete', name: 'delete', methods: ['POST'])]
+    public function delete(Request $request): Response {
+        $token = $request->getPayload()->get('token');
+
+        if (!$this->isCsrfTokenValid(TokenEnum::DELETE->value, $token)) {
+            $this->addFlash('danger', 'Formulário de exclusão inválido, tente novamente.');
+
+            return $this->redirectToRoute('app_apostador_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        $uuidApostador = $request->request->get('uuid');
+
+        $uuid = Uuid::fromString($uuidApostador);
+
+        $apostador = $this->repository->findOneByUuid($uuid);
+
+        $this->denyAccessUnlessGranted(ApostadorVoter::DELETE, $apostador);
+
+        if ($apostador) {
+            $nome = $apostador->getNome();
+            $this->repository->delete($apostador);
+            $this->addFlash(AlertMessageEnum::SUCCESS->value, \sprintf('Apostador "%s" foi excluido com sucesso.', $nome));
+        } else {
+            $this->addFlash(AlertMessageEnum::WARNING->value, \sprintf('Apostador não encontrado.', $nome));
+        }
+
+        return $this->redirectToRoute('app_apostador_index', [], Response::HTTP_SEE_OTHER);
     }
 }

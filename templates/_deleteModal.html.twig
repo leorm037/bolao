@@ -1,0 +1,28 @@
+{# templates/_deleteModal.html.twig #}
+<form name="delete" method="post" data-loading="true" action="{{ deleteAction|default("") }}">
+    <input type="hidden" name="token" value="{{ csrf_token('DELETE_ENTITY') }}" />
+    <input type="hidden" id="deleteUuid" name="uuid" value="">
+    <div id="deleteModal" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="h5 modal-title"><twig:ux:icon name="bi:trash" /> Excluir</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-labe="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning d-flex align-items-center" role="alert">
+                        <div class="flex-shrink-0 me-2">
+                            <twig:ux:icon name="bi:exclamation-triangle" />
+                        </div>
+                        <div class="flex-grow-1">Esta ação não tem reversão!</div>
+                    </div>
+                    <p id="deleteMensagem">Deseja realmente excluir?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal" aria-labe="Fechar"><twig:ux:icon name="bi:x-circle" /> Fechar</button>
+                    <button type="submit" id="deleteModalButton" class="btn btn-sm btn-danger"><twig:ux:icon name="bi:trash" /> Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

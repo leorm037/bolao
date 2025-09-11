@@ -17,11 +17,13 @@ use App\Entity\Usuario;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @extends ServiceEntityRepository<Apostador>
  */
-class ApostadorRepository extends ServiceEntityRepository {
+class ApostadorRepository extends ServiceEntityRepository
+{
 
     public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Apostador::class);
@@ -62,6 +64,20 @@ class ApostadorRepository extends ServiceEntityRepository {
         }
 
         return new PaginacaoDTO(new Paginator($query), $registrosPorPagina, $paginaAtual);
+    }
+
+    public function findOneByUuid(Uuid $uuid): ?Apostador {
+        return $this->createQueryBuilder('a')
+                        ->where('a.uuid = :uuid')
+                        ->setParameter('uuid', $uuid->toBinary())
+                        ->getQuery()
+                        ->getOneOrNullResult()
+        ;
+    }
+
+    public function delete(Apostador $apostador): void {
+        $this->getEntityManager()->remove($apostador);
+        $this->getEntityManager()->flush();
     }
 
 //    /**

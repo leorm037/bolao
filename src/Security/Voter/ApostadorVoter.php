@@ -20,9 +20,10 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 final class ApostadorVoter extends Voter {
 
     public const EDIT = 'APOSTADOR_EDIT';
-
+    public const DELETE = 'APOSTADOR_DELETE';
+    
     protected function supports(string $attribute, mixed $subject): bool {
-        return \in_array($attribute, [self::EDIT]) && $subject instanceof Apostador;
+        return \in_array($attribute, [self::EDIT, self::DELETE]) && $subject instanceof Apostador;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool {
@@ -35,11 +36,22 @@ final class ApostadorVoter extends Voter {
         $apostador = $subject;
 
         return match ($attribute) {
-            self::EDIT => $this->canEdit($apostador, $usuario, $vote)
+            self::EDIT => $this->canEdit($apostador, $usuario),
+            self::DELETE => $this->canDelete($apostador, $usuario)
         };
     }
 
-    private function canEdit(Apostador $apostador, Usuario $usuario, ?Vote $vote): bool {
+    private function canEdit(Apostador $apostador, Usuario $usuario): bool {
+        if ($usuario === $apostador->getUsuario()) {
+            return true;
+        }
+
+        $vote?->addReason('O apostador não pertence a este usuário.');
+
+        return false;
+    }
+    
+    private function canDelete(Apostador $apostador, Usuario $usuario): bool {
         if ($usuario === $apostador->getUsuario()) {
             return true;
         }
