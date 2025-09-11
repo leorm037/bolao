@@ -17,6 +17,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ApostadorRepository::class)]
 #[UniqueEntity(fields: ['usuario', 'nome'], message: 'Já existe um apostador com este nome.')]
