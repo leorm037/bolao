@@ -1,11 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Password Reset Email Sent{% endblock %}
+{% block title %}{{ parent() }} :: O e-mail para recuperar a senha foi enviado{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{{ path('app_login') }}" class="text-decoration-none"><twig:ux:icon name="bi:door-closed" /> Entrar</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('app_forgot_password_request') }}" class="text-decoration-none"><twig:ux:icon name="bi:key-fill" /> Recuperar senha</a></li>
+    <li class="breadcrumb-item active"><twig:ux:icon name="bi:envelope-at" /> Recuperar senha</li>
+{% endblock %}
 
 {% block body %}
-    <p>
-        If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password.
-        This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
-    </p>
-    <p>If you don't receive an email please check your spam folder or <a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
+    <div class="card shadow-sm">
+        <div class="card-header bg-gradient">
+            <h1 class="h4 m-0"><twig:ux:icon name="bi:envelope-at" /> Recuperar senha</h1>
+        </div>
+        <div class="card-body">
+            <p>
+                Se existir uma conta que corresponda ao seu e-mail, então uma mensagem foi enviada contendo um <i>link</i> que você pode usar para redefinir sua senha.
+                O <i>link</i> enviado irá expirar em {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+            </p>
+            <p>Se você não receber uma mensagem, verifique sua pasta de spam ou <a href="{{ path('app_forgot_password_request') }}">tente novamente</a>.</p>
+        </div>
+    </div>
 {% endblock %}

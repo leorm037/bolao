@@ -22,7 +22,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ApostadorRepository::class)]
 #[UniqueEntity(fields: ['usuario', 'nome'], message: 'Já existe um apostador com este nome.')]
 #[ORM\HasLifecycleCallbacks]
-class Apostador extends AbstractEntity {
+class Apostador extends AbstractEntity
+{
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

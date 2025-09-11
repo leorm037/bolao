@@ -7,43 +7,43 @@
     <body>
       <trans-unit id="475.upF" resname="Você precisa aceitar os nossos termos.">
         <source>Você precisa aceitar os nossos termos.</source>
-        <target>__Você precisa aceitar os nossos termos.</target>
+        <target>Você precisa aceitar os nossos termos.</target>
       </trans-unit>
       <trans-unit id="uvdeF2P" resname="Por favor, informe a senha">
         <source>Por favor, informe a senha</source>
-        <target>__Por favor, informe a senha</target>
+        <target>Por favor, informe a senha</target>
       </trans-unit>
       <trans-unit id="eBO5wmi" resname="Sua senha deve ter no mínimo {{ limit }} caracteres">
         <source>Sua senha deve ter no mínimo {{ limit }} caracteres</source>
-        <target>__Sua senha deve ter no mínimo {{ limit }} caracteres</target>
+        <target>Sua senha deve ter no mínimo {{ limit }} caracteres</target>
       </trans-unit>
       <trans-unit id="nMLbK9Z" resname="Informe o nome da Loteria.">
         <source>Informe o nome da Loteria.</source>
-        <target>__Informe o nome da Loteria.</target>
+        <target>Informe o nome da Loteria.</target>
       </trans-unit>
       <trans-unit id="FXHkk0Y" resname="Informe a URL da API.">
         <source>Informe a URL da API.</source>
-        <target>__Informe a URL da API.</target>
+        <target>Informe a URL da API.</target>
       </trans-unit>
       <trans-unit id="IJuIkjU" resname="Já existe um apostador com este nome.">
         <source>Já existe um apostador com este nome.</source>
-        <target>__Já existe um apostador com este nome.</target>
+        <target>Já existe um apostador com este nome.</target>
       </trans-unit>
       <trans-unit id="8biHcRp" resname="Informe o nome do apostador.">
         <source>Informe o nome do apostador.</source>
-        <target>__Informe o nome do apostador.</target>
+        <target>Informe o nome do apostador.</target>
       </trans-unit>
       <trans-unit id=".3ou7pq" resname="Já existe uma conta com este e-mail">
         <source>Já existe uma conta com este e-mail</source>
-        <target>__Já existe uma conta com este e-mail</target>
+        <target>Já existe uma conta com este e-mail</target>
       </trans-unit>
       <trans-unit id="B4URKO7" resname="Informe o nome completo.">
         <source>Informe o nome completo.</source>
-        <target>__Informe o nome completo.</target>
+        <target>Informe o nome completo.</target>
       </trans-unit>
       <trans-unit id="B9r0Hn5" resname="Error">
         <source>Error</source>
-        <target>__Error</target>
+        <target>Error</target>
       </trans-unit>
     </body>
   </file>

@@ -3,7 +3,8 @@
 {% block title %}{{ parent() }} :: Recuperar senha{% endblock %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item active"><twig:ux:icon name="bi:key-fill" /><i class="bi bi-key-fill"></i> Recuperar senha</li>
+    <li class="breadcrumb-item"><a href="{{ path('app_login') }}" class="text-decoration-none"><twig:ux:icon name="bi:door-closed" /> Entrar</a></li>
+    <li class="breadcrumb-item active"><twig:ux:icon name="bi:key-fill" /> Recuperar senha</li>
 {% endblock %}
 
 {% block body %}
@@ -37,7 +38,7 @@
                         </div>
                         <div>
                             <button type="reset" class="btn btn-secondary bg-gradient btn-sm shadow"><twig:ux:icon name="carbon:clean" /> Limpar</button>
-                                <button type="submit" class="btn btn-primary bg-gradient btn-sm shadow"><twig:ux:icon name="bi:floppy" /> Salvar</button>
+                                <button type="submit" class="btn btn-primary bg-gradient btn-sm shadow"><twig:ux:icon name="bi:envelope-at" /> Enviar</button>
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,10 @@
 
 {% block title %}{{ parent() }} :: Inscreva-se{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item active"><twig:ux:icon name="bi:person-add" /> Inscreva-se</li>
+{% endblock %}
+
 {% block body %}
     {{ form_start(form) }}
         <div class="row justify-content-md-center">
@@ -14,7 +18,7 @@
 
                 <div class="card shadow">
                     <div class="card-header bg-gradient">
-                        <h1 class="h4 m-0"><twig:ux:icon name="bi:person-add" /> Inscrição</h1>
+                        <h1 class="h4 m-0"><twig:ux:icon name="bi:person-add" /> Inscreva-se</h1>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -57,7 +61,13 @@
                                 {{ form_help(form.plainPassword.second) }}
                             </div>
                             <div class="col-12">
+                                {#
                                 {{ form_row(form.agreeTerms) }}
+                                #}
+                                {{ form_row(form.agreeTerms, {
+                                    label: 'Você precisa aceitar os <a href="' ~ path('app_agree_terms') ~ '">nossos termos</a>',
+                                    label_html: true
+                                }) }}
                             </div>
                         </div>
                     </div>

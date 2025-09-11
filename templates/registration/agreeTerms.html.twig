@@ -1,0 +1,36 @@
+{# templates/registration/register.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} :: Nossos termos{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{{ path('app_register') }}" class="text-decoration-none"><twig:ux:icon name="bi:person-add" /> Inscreva-se</a></li>
+    <li class="breadcrumb-item active"><twig:ux:icon name="bi:card-text" /> Nossos termos</li>
+{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-md-center">
+        <div class="col col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-gradient">
+                    <h1 class="h4 m-0"><twig:ux:icon name="bi:card-text" /> Nossos termos</h1>
+                </div>
+                <div class="card-body">
+                    <p>Esta aplicação foi desenvolvida exclusivamente para fins de estudo e aprendizado da linguagem/tecnologia utilizada.<p>
+                    <ul>
+                        <li>Não se trata de um produto acabado ou homologado para uso em produção.</li>
+                        <li>Os dados inseridos podem não ser armazenados de forma segura e podem ser apagados a qualquer momento.</li>
+                        <li>Nenhuma garantia de funcionamento, disponibilidade ou confidencialidade é oferecida.</li>
+                        <li>O objetivo é apenas testar conceitos técnicos.</li>
+                    </ul>
+                    <p>Ao prosseguir, você declara estar ciente de que esta aplicação tem fins educacionais e concorda em utilizá-la apenas para testes e aprendizado.</p>
+                </div>
+                <div class="card-footer bg-gradient d-flex justify-content-between">
+                    <div>
+                        <a class="btn btn-outline-secondary bg-gradient btn-sm shadow" href="{{ path('app_register') }}"><twig:ux:icon name="bi:arrow-left" /> Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
