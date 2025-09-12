@@ -30,7 +30,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - name: "Instalar dependências composer"
-        run: composer install --no-pregress --prefer-dist --no-dev -a -o
+        run: composer install --no-progress --prefer-dist --no-dev -a -o
       - name: "Copiar código"
         uses: appleboy/scp-action@v0.1.7
         with:
