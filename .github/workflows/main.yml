@@ -13,6 +13,24 @@ jobs:
     steps:      
       - name: "Obter o código"
         uses: actions/checkout@v4
+      - name: "Cache npm"
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+      - name: "Instalar dependências NPM"
+        run: npm install
+      - name: "Cache composer"
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache/files
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - name: "Instalar dependências composer"
+        run: composer install --no-pregress --prefer-dist --no-dev -a -o
       - name: "Copiar código"
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -30,11 +48,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /deploy/bolao            
-            composer install --no-dev --no-progress -a -o
+            cd /deploy/bolao
+            cp /deploy/config/bolao.env.prod.local /deploy/bolao/.env.prod.local
             composer code:ci
             composer dump-env prod
-            APP_ENV=prod php bin/console cache:warmup
-            sudo cp -RTf /deploy/bolao/ /var/www/bolao
-            cd /var/www/bolao
-            sudo chown -R www-data: .
+            sudo -u www-data cp -RTf /deploy/bolao/ /var/www/bolao
