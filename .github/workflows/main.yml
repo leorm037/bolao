@@ -22,15 +22,6 @@ jobs:
             ${{ runner.os }}-npm-
       - name: "Instalar dependências NPM"
         run: npm install
-      - name: "Cache composer"
-        uses: actions/cache@v4
-        with:
-          path: ~/.composer/cache/files
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-      - name: "Instalar dependências composer"
-        run: APP_ENV=prod composer install --no-progress --prefer-dist --no-dev -a -o
       - name: "Copiar código"
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -50,6 +41,7 @@ jobs:
           script: |
             cd /deploy/bolao
             cp /deploy/config/bolao.env.prod.local /deploy/bolao/.env.prod.local
-            APP_ENV=prod composer code:ci
+            APP_ENV=prod composer install --no-progress --prefer-dist --no-dev -a -o
             composer dump-env prod
+            composer code:ci
             sudo -u www-data cp -RTf /deploy/bolao/ /var/www/bolao
