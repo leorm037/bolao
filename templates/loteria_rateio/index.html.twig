@@ -1,3 +1,4 @@
+{# templates/loteria_rateio/index.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ parent() }} :: Loteria :: Rateio{% endblock %}
@@ -23,6 +24,7 @@
                 </div>
             </div>
         </div>
+        {{ include('loteria/_loteriaHeader.html.twig', {'loteria': loteria}) }}
         <div class="card-body">
             <table class="table table-striped table-hover table-bordered shadow-sm">
                 <thead>
@@ -36,7 +38,7 @@
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    {% for apostador in apostadores %}
+                    {% for rateio in rateios %}
                         <tr>
                             <td class="d-table-cell d-xl-none text-break">
                                 <p>
@@ -93,8 +95,8 @@
                 </tbody>
             </table>
         </div>
-        {{ include('_tableFooter.html.twig', {'paginacao': apostadores}) }}
+        {{ include('_tableFooter.html.twig', {'paginacao': rateios}) }}
     </div>
-    {{ include('_deleteModal.html.twig', {'deleteAction': path('app_loteria_rateio_delete')}) }}
+    {{ include('_deleteModal.html.twig', {'deleteAction': path('app_loteria_rateio_delete', {'uuid': loteria.uuid})}) }}
 </div>
 {% endblock %}

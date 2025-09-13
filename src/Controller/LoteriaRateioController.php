@@ -22,7 +22,7 @@ final class LoteriaRateioController extends AbstractController
     #[Route('', name: 'index', methods: ['GET'])]
     public function index(Loteria $loteria): Response
     {
-        $raterios = null;
+        $rateios = null;
         
         return $this->render('loteria_rateio/index.html.twig', [
             'loteria' => $loteria,

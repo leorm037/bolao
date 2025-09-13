@@ -1,0 +1,39 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} :: 404 Página não encontrada{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active"><twig:ux:icon name="bi:emoji-frown" /> 404 Página não encontrada</li>
+{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-md-center">
+        <div class="col col-xl-4 col-md-6">'
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="h4 m-0">
+                                <twig:ux:icon name="bi:emoji-frown" /> Erro
+                            </h1>
+                        </div>
+                        <div>
+                            <a href="{{ path('app_home') }}" class="btn btn-primary btn-sm bg-gradient shadow-sm">
+                                <twig:ux:icon name="bi:arrow-left" /> Voltar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-1">
+                    <img src="{{ asset('images/page-error-404.png') }}" style="width: 100%; height: auto">
+                </div>
+                <div class="card-footer bg-gradient d-flex justify-content-between">
+                    <div>
+                        <a class="btn btn-outline-secondary bg-gradient btn-sm shadow" href="{{ path('app_home') }}"><twig:ux:icon name="bi:arrow-left" /> Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
