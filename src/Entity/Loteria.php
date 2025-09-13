@@ -14,6 +14,8 @@ namespace App\Entity;
 use App\Repository\LoteriaRepository;
 use DateTime;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -57,6 +59,17 @@ class Loteria extends AbstractEntity {
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?DateTime $updatedAt = null;
+
+    /**
+     * @var Collection<int, LoteriaRateio>
+     */
+    #[ORM\OneToMany(targetEntity: LoteriaRateio::class, mappedBy: 'loteria', orphanRemoval: true)]
+    private Collection $loteriaRateios;
+
+    public function __construct()
+    {
+        $this->loteriaRateios = new ArrayCollection();
+    }
 
     public function getId(): ?int {
         return $this->id;
@@ -138,6 +151,36 @@ class Loteria extends AbstractEntity {
 
     public function setUpdatedAt(?DateTime $updatedAt): static {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LoteriaRateio>
+     */
+    public function getLoteriaRateios(): Collection
+    {
+        return $this->loteriaRateios;
+    }
+
+    public function addLoteriaRateio(LoteriaRateio $loteriaRateio): static
+    {
+        if (!$this->loteriaRateios->contains($loteriaRateio)) {
+            $this->loteriaRateios->add($loteriaRateio);
+            $loteriaRateio->setLoteria($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoteriaRateio(LoteriaRateio $loteriaRateio): static
+    {
+        if ($this->loteriaRateios->removeElement($loteriaRateio)) {
+            // set the owning side to null (unless already changed)
+            if ($loteriaRateio->getLoteria() === $this) {
+                $loteriaRateio->setLoteria(null);
+            }
+        }
 
         return $this;
     }
