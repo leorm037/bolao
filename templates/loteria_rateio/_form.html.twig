@@ -1,0 +1,47 @@
+{# templates/loteria_rateio/_form.html.twig #}
+<div class="row">
+    <div class="col-12 col-md-6 col-xl-3">
+        <div class="mb-3">
+            {{ form_label(form.quantidadeDezenasJogadas) }}
+            <div class="input-group">
+                <div class="input-group-text"><twig:ux:icon name="bi:alphabet" /></div>
+                {{ form_widget(form.quantidadeDezenasJogadas) }}
+            </div>
+            {{ form_errors(form.quantidadeDezenasJogadas) }}
+            {{ form_help(form.quantidadeDezenasJogadas) }}
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+        <div class="mb-3">
+            {{ form_label(form.quantidadeDezenasAcertadas) }}
+            <div class="input-group">
+                <div class="input-group-text"><twig:ux:icon name="bi:envelope-at" /></div>
+                    {{ form_widget(form.quantidadeDezenasAcertadas) }}
+            </div>
+            {{ form_errors(form.quantidadeDezenasAcertadas) }}
+            {{ form_help(form.quantidadeDezenasAcertadas) }}
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+        <div class="mb-3">
+            {{ form_label(form.quantidadeDezenasPremiadas) }}
+            <div class="input-group">
+                <div class="input-group-text"><twig:ux:icon name="ic:baseline-pix" /></div>
+                {{ form_widget(form.quantidadeDezenasPremiadas) }}
+            </div>
+            {{ form_errors(form.quantidadeDezenasPremiadas) }}
+            {{ form_help(form.quantidadeDezenasPremiadas) }}
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+        <div class="mb-3">
+            {{ form_label(form.quantidadePremios) }}
+            <div class="input-group">
+                <div class="input-group-text"><twig:ux:icon name="ic:baseline-pix" /></div>
+                {{ form_widget(form.quantidadePremios) }}
+            </div>
+            {{ form_errors(form.quantidadePremios) }}
+            {{ form_help(form.quantidadePremios) }}
+        </div>
+    </div>
+</div>

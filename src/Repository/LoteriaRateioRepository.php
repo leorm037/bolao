@@ -20,9 +20,17 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class LoteriaRateioRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+
+    public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, LoteriaRateio::class);
+    }
+
+    public function save(LoteriaRateio $loteriaRateio, bool $flush = true): void {
+        $this->getEntityManager()->persist($loteriaRateio);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
     }
 
     //    /**
@@ -39,7 +47,6 @@ class LoteriaRateioRepository extends ServiceEntityRepository
     //            ->getResult()
     //        ;
     //    }
-
     //    public function findOneBySomeField($value): ?LoteriaRateio
     //    {
     //        return $this->createQueryBuilder('l')

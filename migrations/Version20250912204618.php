@@ -165,7 +165,7 @@ final class Version20250912204618 extends AbstractMigration
     }
     
     private function loteriaRateio(): string {
-        return "CREATE TABLE IF NOT EXISTS `bolao`.`loteria_raterio` (
+        return "CREATE TABLE IF NOT EXISTS `bolao`.`loteria_rateio` (
                     `id` INT NOT NULL AUTO_INCREMENT,
                     `uuid` BINARY(16) NOT NULL,
                     `loteria_id` INT NOT NULL,

@@ -27,7 +27,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\UniqueConstraint(name: 'uuid_UNIQUE', columns: ['uuid'])]
 #[ORM\UniqueConstraint(name: 'slug_UNIQUE', columns: ['url_slug'])]
 #[ORM\HasLifecycleCallbacks]
-class Loteria extends AbstractEntity {
+class Loteria extends AbstractEntity
+{
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -48,17 +49,14 @@ class Loteria extends AbstractEntity {
     #[Assert\NotBlank(message: 'Informe a URL da API.')]
     private ?string $urlApi = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::JSON)]
     private array $dezenas = [];
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::JSON)]
     private array $apostas = [];
 
-    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
-    protected ?DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    protected ?DateTime $updatedAt = null;
+    #[ORM\Column(type: Types::JSON)]
+    private array $premios = [];
 
     /**
      * @var Collection<int, LoteriaRateio>
@@ -66,8 +64,13 @@ class Loteria extends AbstractEntity {
     #[ORM\OneToMany(targetEntity: LoteriaRateio::class, mappedBy: 'loteria', orphanRemoval: true)]
     private Collection $loteriaRateios;
 
-    public function __construct()
-    {
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    protected ?DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    protected ?DateTime $updatedAt = null;
+
+    public function __construct() {
         $this->loteriaRateios = new ArrayCollection();
     }
 
@@ -135,6 +138,16 @@ class Loteria extends AbstractEntity {
         return $this;
     }
 
+    public function getPremios(): array {
+        return $this->premios;
+    }
+
+    public function setPremios(array $premios): static {
+        $this->premios = $premios;
+
+        return $this;
+    }
+
     public function getCreatedAt(): ?DateTimeImmutable {
         return $this->createdAt;
     }
@@ -158,13 +171,11 @@ class Loteria extends AbstractEntity {
     /**
      * @return Collection<int, LoteriaRateio>
      */
-    public function getLoteriaRateios(): Collection
-    {
+    public function getLoteriaRateios(): Collection {
         return $this->loteriaRateios;
     }
 
-    public function addLoteriaRateio(LoteriaRateio $loteriaRateio): static
-    {
+    public function addLoteriaRateio(LoteriaRateio $loteriaRateio): static {
         if (!$this->loteriaRateios->contains($loteriaRateio)) {
             $this->loteriaRateios->add($loteriaRateio);
             $loteriaRateio->setLoteria($this);
@@ -173,8 +184,7 @@ class Loteria extends AbstractEntity {
         return $this;
     }
 
-    public function removeLoteriaRateio(LoteriaRateio $loteriaRateio): static
-    {
+    public function removeLoteriaRateio(LoteriaRateio $loteriaRateio): static {
         if ($this->loteriaRateios->removeElement($loteriaRateio)) {
             // set the owning side to null (unless already changed)
             if ($loteriaRateio->getLoteria() === $this) {

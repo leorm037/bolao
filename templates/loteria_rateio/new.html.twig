@@ -1,0 +1,27 @@
+{# templates/loteria_rateio/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} :: Loteria :: Rateio{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{{ path('app_loteria_index') }}" class="text-decoration-none"><twig:ux:icon name="meteor-icons:clover" class="Icon icon-rotate-45" /> Loteria</a></li>
+    <li class="breadcrumb-item active"><twig:ux:icon name="material-symbols:groups" /> Rateio</li>
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form, {'attr': {'data-loading': 'true'}}) }}
+    <div class="card shadow-sm">
+        <div class="card-header bg-gradient">
+            <h1 class="h4 m-0">
+                <twig:ux:icon name="material-symbols:groups" /> Rateio
+            </h1>
+        </div>
+        {{ include('loteria/_loteriaHeader.html.twig', {'loteria': loteria}) }}
+        <div class="card-body">
+            {{ include('loteria_rateio/_form.html.twig') }}
+        </div>
+
+        {{ include('_formFooter.html.twig', {'voltar_href': path('app_apostador_index')}) }}
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
