@@ -24,15 +24,18 @@
                 </div>
             </div>
         </div>
+                        
         {{ include('loteria/_loteriaHeader.html.twig', {'loteria': loteria}) }}
+        
         <div class="card-body">
             <table class="table table-striped table-hover table-bordered shadow-sm">
                 <thead>
                     <tr>
-                        <th class="d-table-cell d-xl-none">Apostador</th>
-                        <th class="d-none d-xl-table-cell">Nome</th>
-                        <th class="d-none d-xl-table-cell">E-mail</th>
-                        <th class="d-none d-xl-table-cell">Contato</th>
+                        <th class="d-table-cell d-xl-none">Rateio</th>
+                        <th class="d-none d-xl-table-cell">Quantidade de dezenas jogadas</th>
+                        <th class="d-none d-xl-table-cell">Quantidade de dezenas acertadas</th>
+                        <th class="d-none d-xl-table-cell">Quantidade de dezenas premiadas</th>
+                        <th class="d-none d-xl-table-cell">Quantidade de prêmios</th>
                         <th class="d-none d-xl-table-cell">Atualização</th>
                         <th class="text-center">Ações</th>
                     </tr>
@@ -42,37 +45,32 @@
                         <tr>
                             <td class="d-table-cell d-xl-none text-break">
                                 <p>
-                                    <strong>Nome</strong><br/>
-                                    {{ apostador.nome }}
+                                    <strong>Quantidade de dezenas jogadas</strong><br/>
+                                    {{ rateio.quantidadeDezenasJogadas }}
                                 </p>
                                 <p>
-                                    <strong>E-mail</strong><br/>
-                                    {{ apostador.email }}
+                                    <strong>Quantidade de dezenas acertadas</strong><br/>
+                                    {{ rateio.quantidadeDezenasAcertadas }}
                                 </p>
                                 <p>
-                                    <strong>Contato</strong><br/>
-                                    {% if apostador.celular %}
-                                        {{ apostador.celular }}
-                                    {% else %}    
-                                        {{ apostador.telefone }}
-                                    {% endif %}
+                                    <strong>Quantidade de dezenas premiadas</strong><br/>
+                                        {{ rateio.quantidadeDezenasPremiadas }}
+                                </p>
+                                <p>
+                                    <strong>Quantidade de prêmios</strong><br/>
+                                        {{ rateio.quantidadePremios }}
                                 </p>
                                 <p>
                                     <strong>Atualização</strong><br/>
-                                    {{ apostador.updatedAt ? apostador.updatedAt|date('d/m/Y H:i', 'America/Sao_Paulo') : apostador.createdAt|date('d/m/Y H:i', 'America/Sao_Paulo') }}
+                                    {{ rateio.updatedAt ? rateio.updatedAt|date('d/m/Y H:i', 'America/Sao_Paulo') : rateio.createdAt|date('d/m/Y H:i', 'America/Sao_Paulo') }}
                                 </p>
                             </td>
-                            <td class="d-none d-xl-table-cell align-middle">{{ apostador.nome }}</td>
-                            <td class="d-none d-xl-table-cell align-middle">{{ apostador.email }}</td>
+                            <td class="d-none d-xl-table-cell align-middle">{{ rateio.quantidadeDezenasJogadas }}</td>
+                            <td class="d-none d-xl-table-cell align-middle">{{ rateio.quantidadeDezenasAcertadas }}</td>
+                            <td class="d-none d-xl-table-cell align-middle">{{ rateio.quantidadeDezenasPremiadas }}</td>
+                            <td class="d-none d-xl-table-cell align-middle">{{ rateio.quantidadePremios }}</td>
                             <td class="d-none d-xl-table-cell align-middle">
-                                {% if apostador.celular %}
-                                    {{ apostador.celular }}
-                                {% else %}    
-                                    {{ apostador.telefone }}
-                                {% endif %}
-                            </td>
-                            <td class="d-none d-xl-table-cell align-middle">
-                                {{ apostador.updatedAt ? apostador.updatedAt|date('d/m/Y H:i', 'America/Sao_Paulo') : apostador.createdAt|date('d/m/Y H:i', 'America/Sao_Paulo') }}
+                                {{ rateio.updatedAt ? rateio.updatedAt|date('d/m/Y H:i', 'America/Sao_Paulo') : rateio.createdAt|date('d/m/Y H:i', 'America/Sao_Paulo') }}
                             </td>
                             <td class="text-center align-middle">
                                 <div class="dropdown dropstart">
@@ -80,9 +78,9 @@
                                         <twig:ux:icon name="bi:three-dots-vertical" />
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a data-loading="true" class="dropdown-item" href="{{ path('app_apostador_edit', {'uuid': apostador.uuid}) }}"><twig:ux:icon name="bi:pencil" /> Alterar</a></li>
+                                        <li><a data-loading="true" class="dropdown-item" href="{{ path('app_loteria_rateio_edit', {'uuid': loteria.uuid, 'uuidRateio': rateio.uuid}) }}"><twig:ux:icon name="bi:pencil" /> Alterar</a></li>
                                         <li><hr class="dropdown-divider"></li>
-                                        <li><button type="button" class="dropdown-item text-bg-danger" data-controller="delete" data-action="click->delete#show" data-delete-uuid-value="{{ apostador.uuid }}" data-delete-mensagem-value="{{ 'Deseja excluir <strong>"' ~ apostador.nome ~ '"</strong>?' }}"><twig:ux:icon name="bi:trash3" /> Excluir</button></li>
+                                        <li><button type="button" class="dropdown-item text-bg-danger" data-controller="delete" data-action="click->delete#show" data-delete-uuid-value="{{ rateio.uuid }}" data-delete-mensagem-value="{{ 'Deseja excluir <strong>o rateio</strong>?' }}"><twig:ux:icon name="bi:trash3" /> Excluir</button></li>
                                     </ul>
                                 </div>
                             </td>

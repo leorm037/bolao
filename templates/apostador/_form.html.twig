@@ -13,7 +13,7 @@
     {{ form_label(form.email) }}
     <div class="input-group">
         <div class="input-group-text"><twig:ux:icon name="bi:envelope-at" /></div>
-            {{ form_widget(form.email) }}
+        {{ form_widget(form.email) }}
     </div>
     {{ form_errors(form.email) }}
     {{ form_help(form.email) }}
@@ -53,3 +53,4 @@
         </div>
     </div>
 </div>
+{{  form_row(form.isDefault) }}

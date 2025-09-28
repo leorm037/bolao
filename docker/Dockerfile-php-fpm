@@ -1,21 +1,15 @@
-FROM php:fpm
+FROM php:8.3.26-fpm-alpine3.22
 
-RUN apt update -y
+RUN apk update
 
-RUN apt install -y libicu-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev libonig-dev
+RUN apk add --no-cache --virtual .build-deps icu-dev zlib-dev libpng-dev libjpeg-turbo-dev freetype-dev oniguruma-dev $PHPIZE_DEPS
 
 RUN pecl install redis
 
 RUN docker-php-ext-enable redis
 
-RUN docker-php-ext-install intl
+RUN docker-php-ext-install -j$(nproc) intl pdo pdo_mysql gd mbstring
 
-RUN docker-php-ext-install pdo
-
-RUN docker-php-ext-install pdo_mysql
-
-RUN docker-php-ext-install gd
-
-RUN docker-php-ext-install mbstring
+RUN apk del .build-deps
 
 WORKDIR /app

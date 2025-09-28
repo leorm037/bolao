@@ -1,7 +1,7 @@
 services:
     mariadb:
         container_name: bolao-mariadb
-        image: mariadb:latest
+        image: mariadb:12.1.1-ubi10-rc
         working_dir: /app
         ports:
             - 3306:3306
@@ -52,10 +52,11 @@ services:
             - nginx
             - mariadb
             - mail
+            - redis            
             
     nginx:
         container_name: bolao-nginx
-        image: nginx:latest
+        image: nginx:1.29.1-alpine
         restart: always
         working_dir: /app
         volumes:
@@ -74,6 +75,28 @@ services:
         ports:
             - 8025:8025
             - 1025:1025
+    
+    redis:
+        container_name: bolao-redis
+        image: redis:8.2.1-alpine
+        restart: always
+        volumes:
+            - redis_data:/data
+        ports:
+            - 6379:6379
+            
+    redisinsight:
+        container_name: bolao-redisinsight
+        image: redis/redisinsight:latest
+        restart: always
+        ports:
+          - "5540:5540"
+        depends_on:
+          - redis
+        volumes:
+          - redisinsight_data:/data
 
 volumes:
     mariadb:
+    redis_data:
+    redisinsight_data:

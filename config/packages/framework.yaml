@@ -3,7 +3,11 @@ framework:
     secret: '%env(APP_SECRET)%'
 
     # Note that the session will be started ONLY if you read or write from it.
-    session: true
+    session:
+        handler_id: '%env(resolve:REDIS_URL)%'
+        cookie_samesite: lax        # pode ajustar para 'strict' dependendo do app
+        cookie_lifetime: 86400      # 1 dia de duração
+        gc_maxlifetime: 86400       # tempo de expiração no servidor
 
     #esi: true
     #fragments: true

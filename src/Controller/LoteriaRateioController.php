@@ -32,8 +32,16 @@ final class LoteriaRateioController extends AbstractController
     }
 
     #[Route('', name: 'index', methods: ['GET'])]
-    public function index(Loteria $loteria): Response {
-        $rateios = null;
+    public function index(Request $request, Loteria $loteria): Response {
+        $registrosPorPaginas = $request->get('registros-por-pagina', 10);
+
+        $pagina = $request->get('pagina', 1);
+
+        $rateios = $this->repository->list(
+                $loteria,
+                $registrosPorPaginas,
+                $pagina
+        );
 
         return $this->render('loteria_rateio/index.html.twig', [
                     'loteria' => $loteria,
@@ -58,6 +66,25 @@ final class LoteriaRateioController extends AbstractController
         }
 
         return $this->render('loteria_rateio/new.html.twig', [
+                    'loteria' => $loteria,
+                    'form' => $form
+        ]);
+    }
+
+    #[Route('/{uuidRateio:loteriaRateio.uuid}/edit', name: 'edit', methods: ['GET', 'POST'], requirements: ['uuid' => '[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}'])]
+    public function edit(Request $request, Loteria $loteria, LoteriaRateio $loteriaRateio): Response {
+        $form = $this->createForm(LoteriaRateioFormType::class, $loteriaRateio);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->repository->save($loteriaRateio);
+            
+            $this->addFlash(AlertMessageEnum::SUCCESS->value, 'Rateio alterado com sucesso.');
+
+            return $this->redirectToRoute('app_loteria_rateio_index', ['uuid' => $loteria->getUuid()], Response::HTTP_SEE_OTHER);
+        }
+        
+        return $this->render('loteria_rateio/edit.html.twig', [
                     'loteria' => $loteria,
                     'form' => $form
         ]);

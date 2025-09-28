@@ -1,12 +1,12 @@
 {# templates/loteria_rateio/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} :: Loteria :: Rateio{% endblock %}
+{% block title %}{{ parent() }} :: Loteria :: Rateio :: Alterar{% endblock %}
 
 {% block breadcrumb %}
     <li class="breadcrumb-item"><a href="{{ path('app_loteria_index') }}" class="text-decoration-none"><twig:ux:icon name="meteor-icons:clover" class="Icon icon-rotate-45" /> Loteria</a></li>
     <li class="breadcrumb-item"><a href="{{ path('app_loteria_rateio_index', {'uuid': loteria.uuid}) }}" class="text-decoration-none"><twig:ux:icon name="material-symbols:groups" /> Raterio</a></li>
-    <li class="breadcrumb-item active"><twig:ux:icon name="bi:plus-circle" /> Novo</li>
+    <li class="breadcrumb-item active"><twig:ux:icon name="bi:pencil" /> Alterar</li>
 {% endblock %}
 
 {% block body %}

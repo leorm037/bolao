@@ -11,8 +11,11 @@
 
 namespace App\Repository;
 
+use App\DTO\PaginacaoDTO;
+use App\Entity\Loteria;
 use App\Entity\LoteriaRateio;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,6 +26,25 @@ class LoteriaRateioRepository extends ServiceEntityRepository
 
     public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, LoteriaRateio::class);
+    }
+
+    public function list(Loteria $loteria, int $registrosPorPagina = 10, int $paginaAtual = 1) {
+        $registros = (!\in_array($registrosPorPagina, [10, 25, 50, 100])) ? 10 : $registrosPorPagina;
+
+        $pagina = ($paginaAtual - 1) * $registrosPorPagina;
+
+        $query = $this->createQueryBuilder('lr')
+                ->andWhere('lr.loteria = :loteria')
+                ->setParameter('loteria', $loteria)
+                ->orderBy('lr.quantidadeDezenasJogadas', 'ASC')
+                ->orderBy('lr.quantidadeDezenasAcertadas', 'ASC')
+                ->orderBy('lr.quantidadeDezenasPremiadas', 'ASC')
+                ->orderBy('lr.quantidadePremios', 'ASC')
+                ->setFirstResult($pagina)
+                ->setMaxResults($registros)
+        ;
+
+        return new PaginacaoDTO(new Paginator($query), $registrosPorPagina, $paginaAtual);
     }
 
     public function save(LoteriaRateio $loteriaRateio, bool $flush = true): void {

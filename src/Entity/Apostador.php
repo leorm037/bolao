@@ -59,6 +59,9 @@ class Apostador extends AbstractEntity
     #[ORM\Column(nullable: true)]
     protected ?DateTime $updatedAt = null;
 
+    #[ORM\Column(options: ['default' => 'FALSE'])]
+    private ?bool $isDefault = false;
+
     public function getId(): ?int {
         return $this->id;
     }
@@ -149,6 +152,18 @@ class Apostador extends AbstractEntity
 
     public function setUpdatedAt(?DateTime $updatedAt): static {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function isDefault(): bool
+    {
+        return $this->isDefault;
+    }
+
+    public function setIsDefault(bool $isDefault = false): static
+    {
+        $this->isDefault = $isDefault;
 
         return $this;
     }

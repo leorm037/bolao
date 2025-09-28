@@ -22,9 +22,9 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LoteriaRepository::class)]
+#[ORM\Cache(usage: 'READ_ONLY', region: 'read_only_cache')]
 #[ORM\UniqueConstraint(name: 'uuid_UNIQUE', columns: ['uuid'])]
 #[ORM\UniqueConstraint(name: 'nome_UNIQUE', columns: ['nome'])]
-#[ORM\UniqueConstraint(name: 'uuid_UNIQUE', columns: ['uuid'])]
 #[ORM\UniqueConstraint(name: 'slug_UNIQUE', columns: ['url_slug'])]
 #[ORM\HasLifecycleCallbacks]
 class Loteria extends AbstractEntity
@@ -62,6 +62,7 @@ class Loteria extends AbstractEntity
      * @var Collection<int, LoteriaRateio>
      */
     #[ORM\OneToMany(targetEntity: LoteriaRateio::class, mappedBy: 'loteria', orphanRemoval: true)]
+    #[ORM\Cache(usage: 'READ_ONLY')]
     private Collection $loteriaRateios;
 
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
