@@ -6,6 +6,8 @@ RUN apk add --no-cache --virtual .build-deps icu-dev zlib-dev libpng-dev libjpeg
 
 RUN pecl install redis
 
+RUN docker-php-ext-configure intl
+
 RUN docker-php-ext-enable redis
 
 RUN docker-php-ext-install -j$(nproc) intl pdo pdo_mysql gd mbstring

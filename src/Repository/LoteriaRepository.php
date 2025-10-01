@@ -20,16 +20,20 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class LoteriaRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+
+    public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Loteria::class);
     }
 
-    public function list()
-    {
+    /**
+     * 
+     * @return array<int,Loteria>
+     */
+    public function list() {
         return $this->createQueryBuilder('l')
                         ->orderBy('l.nome', 'ASC')
                         ->getQuery()
+                        ->setCacheable(true)
                         ->getResult()
         ;
     }

@@ -42,6 +42,7 @@ class LoteriaRateioRepository extends ServiceEntityRepository
                 ->orderBy('lr.quantidadePremios', 'ASC')
                 ->setFirstResult($pagina)
                 ->setMaxResults($registros)
+                ->setCacheable(true)
         ;
 
         return new PaginacaoDTO(new Paginator($query), $registrosPorPagina, $paginaAtual);

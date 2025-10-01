@@ -19,3 +19,5 @@ framework:
             #my.dedicated.cache: null
             doctrine.second_level_cache_pool:
                 adapter: cache.app
+            doctrine.second_level_cache_read_write_pool:
+                adapter: cache.adapter.filesystem

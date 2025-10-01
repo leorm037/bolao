@@ -22,7 +22,7 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LoteriaRepository::class)]
-#[ORM\Cache(usage: 'READ_ONLY', region: 'read_only_cache')]
+#[ORM\Cache(usage: 'READ_ONLY')]
 #[ORM\UniqueConstraint(name: 'uuid_UNIQUE', columns: ['uuid'])]
 #[ORM\UniqueConstraint(name: 'nome_UNIQUE', columns: ['nome'])]
 #[ORM\UniqueConstraint(name: 'slug_UNIQUE', columns: ['url_slug'])]

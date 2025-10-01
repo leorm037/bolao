@@ -28,10 +28,13 @@ doctrine:
                 type: pool
                 pool: doctrine.second_level_cache_pool
             regions:
-                write_rare_cache:
+                read_write:
                     lifetime: 3600
-                read_only_cache:
-                    lifetime: 3600
+                    cache_driver:
+                        type: pool
+                        pool: doctrine.second_level_cache_read_write_pool
+                    type: filelock
+
         dql:
             string_functions:
               match: DoctrineExtensions\Query\Mysql\MatchAgainst

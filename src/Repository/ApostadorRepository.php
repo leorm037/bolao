@@ -25,7 +25,7 @@ use Symfony\Component\Uid\Uuid;
 class ApostadorRepository extends ServiceEntityRepository
 {
 
-    public function __construct(ManagerRegistry $registry) {
+    public function __construct(private ManagerRegistry $registry) {
         parent::__construct($registry, Apostador::class);
     }
 
@@ -54,6 +54,7 @@ class ApostadorRepository extends ServiceEntityRepository
                 ->orderBy('a.nome', 'ASC')
                 ->setFirstResult($pagina)
                 ->setMaxResults($registros)
+                ->setCacheable(true)
         ;
 
         if ($filter_nome) {

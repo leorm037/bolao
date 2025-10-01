@@ -20,6 +20,7 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ApostadorRepository::class)]
+#[ORM\Cache(usage: 'READ_WRITE', region: 'read_write')]
 #[UniqueEntity(fields: ['usuario', 'nome'], message: 'Já existe um apostador com este nome.')]
 #[ORM\HasLifecycleCallbacks]
 class Apostador extends AbstractEntity
@@ -156,13 +157,11 @@ class Apostador extends AbstractEntity
         return $this;
     }
 
-    public function isDefault(): bool
-    {
+    public function isDefault(): bool {
         return $this->isDefault;
     }
 
-    public function setIsDefault(bool $isDefault = false): static
-    {
+    public function setIsDefault(bool $isDefault = false): static {
         $this->isDefault = $isDefault;
 
         return $this;

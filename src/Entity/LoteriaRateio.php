@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: LoteriaRateioRepository::class)]
+#[ORM\Cache(usage: 'READ_WRITE', region: 'read_write')]
 #[ORM\HasLifecycleCallbacks]
 class LoteriaRateio extends AbstractEntity
 {
