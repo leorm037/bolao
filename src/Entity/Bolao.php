@@ -11,38 +11,38 @@
 
 namespace App\Entity;
 
-use App\Repository\ArquivoRepository;
+use App\Repository\BolaoRepository;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: ArquivoRepository::class)]
+#[ORM\Entity(repositoryClass: BolaoRepository::class)]
+#[ORM\Cache(usage: 'READ_WRITE', region: 'read_write')]
 #[ORM\HasLifecycleCallbacks]
-class Arquivo extends AbstractEntity
+class Bolao extends AbstractEntity
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 120)]
+    private ?string $nome = null;
+
     #[ORM\Column(type: 'uuid')]
     protected ?Uuid $uuid = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $nomeOriginal = null;
+    #[ORM\ManyToOne(inversedBy: 'boloes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Concurso $concurso = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $nome = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $caminho = null;
-
-    #[ORM\ManyToOne(inversedBy: 'arquivos')]
+    #[ORM\ManyToOne(inversedBy: 'boloes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Usuario $usuario = null;
 
-    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    #[ORM\Column]
     protected ?DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
@@ -51,30 +51,6 @@ class Arquivo extends AbstractEntity
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUuid(): ?Uuid
-    {
-        return $this->uuid;
-    }
-
-    public function setUuid(Uuid $uuid): static
-    {
-        $this->uuid = $uuid;
-
-        return $this;
-    }
-
-    public function getNomeOriginal(): ?string
-    {
-        return $this->nomeOriginal;
-    }
-
-    public function setNomeOriginal(string $nomeOriginal): static
-    {
-        $this->nomeOriginal = $nomeOriginal;
-
-        return $this;
     }
 
     public function getNome(): ?string
@@ -89,14 +65,26 @@ class Arquivo extends AbstractEntity
         return $this;
     }
 
-    public function getCaminho(): ?string
+    public function getUuid(): ?Uuid
     {
-        return $this->caminho;
+        return $this->uuid;
     }
 
-    public function setCaminho(string $caminho): static
+    public function setUuid(Uuid $uuid): static
     {
-        $this->caminho = $caminho;
+        $this->uuid = $uuid;
+
+        return $this;
+    }
+
+    public function getConcurso(): ?Concurso
+    {
+        return $this->concurso;
+    }
+
+    public function setConcurso(?Concurso $concurso): static
+    {
+        $this->concurso = $concurso;
 
         return $this;
     }

@@ -1,8 +1,12 @@
 <?php
 
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPClass.php to edit this template
+ *     This file is part of Bolão.
+ *
+ *     (c) Leonardo Rodrigues Marques <leonardo@rodriguesmarques.com.br>
+ *
+ *     This source file is subject to the MIT license that is bundled
+ *     with this source code in the file LICENSE.
  */
 
 namespace App\Helper;
@@ -13,7 +17,6 @@ use SplFileObject;
 
 class CsvReaderHelper
 {
-
     private SplFileObject $file;
 
     public function __construct(string $filePath, string $delimiter = ';', string $enclosure = '"', string $escape = '\\')

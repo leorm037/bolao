@@ -16,12 +16,12 @@ use Doctrine\Persistence\ObjectManager;
 
 class LoteriaRateioFixtures extends Fixture
 {
-
-    public function load(ObjectManager $manager): void {
+    public function load(ObjectManager $manager): void
+    {
         $rateios = [
             'mega-sena',
             'milionaria',
-            'quina'
+            'quina',
         ];
 
         $manager->flush();

@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ *     This file is part of Bolão.
+ *
+ *     (c) Leonardo Rodrigues Marques <leonardo@rodriguesmarques.com.br>
+ *
+ *     This source file is subject to the MIT license that is bundled
+ *     with this source code in the file LICENSE.
+ */
+
 namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
@@ -12,8 +21,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20250912204618 extends AbstractMigration
 {
-
-    public function getDescription(): string {
+    public function getDescription(): string
+    {
         return '
             Usuário,
             Arquivo,
@@ -26,7 +35,8 @@ final class Version20250912204618 extends AbstractMigration
         ;
     }
 
-    public function up(Schema $schema): void {
+    public function up(Schema $schema): void
+    {
         $this->addSql($this->usuario());
         $this->addSql($this->messenger());
         $this->addSql($this->rememberme());
@@ -36,11 +46,13 @@ final class Version20250912204618 extends AbstractMigration
         $this->addSql($this->loteriaRateio());
     }
 
-    public function down(Schema $schema): void {
+    public function down(Schema $schema): void
+    {
         // this down() migration is auto-generated, please modify it to your needs
     }
 
-    private function usuario(): string {
+    private function usuario(): string
+    {
         return "CREATE TABLE IF NOT EXISTS `bolao`.`usuario` (
                     `id` INT NOT NULL AUTO_INCREMENT,
                     `nome` VARCHAR(60) NOT NULL,
@@ -53,9 +65,10 @@ final class Version20250912204618 extends AbstractMigration
                     PRIMARY KEY (`id`))
                 ENGINE = InnoDB";
     }
-    
-    private function arquivo(): string {
-        return "CREATE TABLE IF NOT EXISTS `bolao`.`arquivo` (
+
+    private function arquivo(): string
+    {
+        return 'CREATE TABLE IF NOT EXISTS `bolao`.`arquivo` (
                     `id` INT NOT NULL AUTO_INCREMENT,
                     `uuid` BINARY(16) NOT NULL,
                     `usuario_id` INT NOT NULL,
@@ -72,11 +85,12 @@ final class Version20250912204618 extends AbstractMigration
                       REFERENCES `bolao`.`usuario` (`id`)
                       ON DELETE NO ACTION
                       ON UPDATE NO ACTION)
-                ENGINE = InnoDB";
+                ENGINE = InnoDB';
     }
-    
-    private function messenger(): string {
-        return "CREATE TABLE IF NOT EXISTS `bolao`.`messenger_messages` (
+
+    private function messenger(): string
+    {
+        return 'CREATE TABLE IF NOT EXISTS `bolao`.`messenger_messages` (
                     `id` BIGINT NOT NULL AUTO_INCREMENT,
                     `body` LONGTEXT NOT NULL,
                     `headers` LONGTEXT NOT NULL,
@@ -88,22 +102,24 @@ final class Version20250912204618 extends AbstractMigration
                     INDEX `queue_name_INDEX` (`queue_name` ASC),
                     INDEX `availabled_at_INDEX` (`available_at` ASC),
                     INDEX `delivered_at_INDEX` (`delivered_at` ASC))
-                ENGINE = InnoDB";
+                ENGINE = InnoDB';
     }
-    
-    private function rememberme(): string {
-        return "CREATE TABLE IF NOT EXISTS `bolao`.`rememberme_token` (
+
+    private function rememberme(): string
+    {
+        return 'CREATE TABLE IF NOT EXISTS `bolao`.`rememberme_token` (
                     `series` VARCHAR(88) NOT NULL,
                     `value` VARCHAR(88) NOT NULL,
                     `lastUsed` DATETIME NOT NULL,
                     `class` VARCHAR(100) NOT NULL,
                     `username` VARCHAR(200) NOT NULL,
                     PRIMARY KEY (`series`))
-                ENGINE = InnoDB";
+                ENGINE = InnoDB';
     }
-    
-    private function resetPassword(): string {
-        return "CREATE TABLE IF NOT EXISTS `bolao`.`reset_password_request` (
+
+    private function resetPassword(): string
+    {
+        return 'CREATE TABLE IF NOT EXISTS `bolao`.`reset_password_request` (
                     `id` INT NOT NULL AUTO_INCREMENT,
                     `user_id` INT NOT NULL,
                     `selector` VARCHAR(20) NOT NULL,
@@ -117,11 +133,12 @@ final class Version20250912204618 extends AbstractMigration
                       REFERENCES `bolao`.`usuario` (`id`)
                       ON DELETE NO ACTION
                       ON UPDATE NO ACTION)
-                ENGINE = InnoDB";
+                ENGINE = InnoDB';
     }
-    
-    private function apostador(): string {
-        return "CREATE TABLE IF NOT EXISTS `bolao`.`apostador` (
+
+    private function apostador(): string
+    {
+        return 'CREATE TABLE IF NOT EXISTS `bolao`.`apostador` (
                     `id` INT NOT NULL AUTO_INCREMENT,
                     `uuid` BINARY(16) NOT NULL,
                     `usuario_id` INT NOT NULL,
@@ -141,11 +158,12 @@ final class Version20250912204618 extends AbstractMigration
                       REFERENCES `bolao`.`usuario` (`id`)
                       ON DELETE NO ACTION
                       ON UPDATE NO ACTION)
-                ENGINE = InnoDB";
+                ENGINE = InnoDB';
     }
-    
-    private function loteria(): string {
-        return "CREATE TABLE IF NOT EXISTS `bolao`.`loteria` (
+
+    private function loteria(): string
+    {
+        return 'CREATE TABLE IF NOT EXISTS `bolao`.`loteria` (
                     `id` INT NOT NULL,
                     `uuid` BINARY(16) NOT NULL,
                     `nome` VARCHAR(60) NOT NULL,
@@ -161,11 +179,12 @@ final class Version20250912204618 extends AbstractMigration
                     UNIQUE INDEX `url_slug_UNIQUE` (`url_slug` ASC),
                     UNIQUE INDEX `url_api_UNIQUE` (`url_api` ASC),
                     UNIQUE INDEX `uuid_UNIQUE` (`uuid` ASC))
-                ENGINE = InnoDB";
+                ENGINE = InnoDB';
     }
-    
-    private function loteriaRateio(): string {
-        return "CREATE TABLE IF NOT EXISTS `bolao`.`loteria_rateio` (
+
+    private function loteriaRateio(): string
+    {
+        return 'CREATE TABLE IF NOT EXISTS `bolao`.`loteria_rateio` (
                     `id` INT NOT NULL AUTO_INCREMENT,
                     `uuid` BINARY(16) NOT NULL,
                     `loteria_id` INT NOT NULL,
@@ -183,6 +202,6 @@ final class Version20250912204618 extends AbstractMigration
                       REFERENCES `bolao`.`loteria` (`id`)
                       ON DELETE NO ACTION
                       ON UPDATE NO ACTION)
-                ENGINE = InnoDB";
+                ENGINE = InnoDB';
     }
 }

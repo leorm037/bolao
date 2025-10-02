@@ -21,31 +21,31 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ApostadorFormType extends AbstractType
 {
-
-    public function buildForm(FormBuilderInterface $builder, array $options): void {
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
         $builder
                 ->add('nome', TextType::class, [
                     'label' => 'Nome',
                     'required' => true,
                     'attr' => [
-                        'autofocus' => true
-                    ]
+                        'autofocus' => true,
+                    ],
                 ])
                 ->add('email', EmailType::class, [
                     'label' => 'E-mail',
-                    'required' => false
+                    'required' => false,
                 ])
                 ->add('pix', TextType::class, [
                     'label' => 'Chave PIX',
-                    'required' => false
+                    'required' => false,
                 ])
                 ->add('telefone', TextType::class, [
                     'label' => 'Telefone',
-                    'required' => false
+                    'required' => false,
                 ])
                 ->add('celular', TextType::class, [
                     'label' => 'Celular',
-                    'required' => false
+                    'required' => false,
                 ])
                 ->add('isDefault', ChoiceType::class, [
                     'label' => 'Adicionar em todos os bolões',
@@ -53,19 +53,20 @@ class ApostadorFormType extends AbstractType
                     'help' => 'Adicionar este apostador automaticamente em um novo bolão.',
                     'required' => true,
                     'choices' => [
-                        "Sim" => true,
-                        "Não" => false
+                        'Sim' => true,
+                        'Não' => false,
                     ],
                     'expanded' => true,
                     'multiple' => false,
                     'label_attr' => [
-                        'class' => 'radio-inline'
-                    ]
+                        'class' => 'radio-inline',
+                    ],
                 ])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void {
+    public function configureOptions(OptionsResolver $resolver): void
+    {
         $resolver->setDefaults([
             'data_class' => Apostador::class,
         ]);

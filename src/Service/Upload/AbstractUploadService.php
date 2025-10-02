@@ -1,8 +1,12 @@
 <?php
 
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPClass.php to edit this template
+ *     This file is part of Bolão.
+ *
+ *     (c) Leonardo Rodrigues Marques <leonardo@rodriguesmarques.com.br>
+ *
+ *     This source file is subject to the MIT license that is bundled
+ *     with this source code in the file LICENSE.
  */
 
 namespace App\Service\Upload;
@@ -16,14 +20,11 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AbstractUploadService
 {
-
     public function __construct(
-            private string $targetDirectory,
-            private SluggerInterface $slugger,
-            private LoggerInterface $logger
-    )
-    {
-        
+        private string $targetDirectory,
+        private SluggerInterface $slugger,
+        private LoggerInterface $logger,
+    ) {
     }
 
     public function getTargetDirectory(): ?string
@@ -32,7 +33,7 @@ class AbstractUploadService
 
         $dateTimeDirectory = $dateTime->format('Y/m/d');
 
-        return $this->targetDirectory . '/' . $dateTimeDirectory;
+        return $this->targetDirectory.'/'.$dateTimeDirectory;
     }
 
     public function save(UploadedFile $file): ?string
@@ -41,13 +42,13 @@ class AbstractUploadService
 
         $safeFilename = $this->slugger->slug($originalFilename)->lower();
 
-        $filename = $safeFilename . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $filename = $safeFilename.'_'.uniqid().'.'.$file->getClientOriginalExtension();
 
         try {
             $file->move($this->getTargetDirectory(), $filename);
         } catch (FileException $e) {
             $this->logger->error(
-                'Erro ao tentar mover o arquivo ' . $originalFilename, [
+                'Erro ao tentar mover o arquivo '.$originalFilename, [
                     'fileOriginal' => $file->getFileInfo(),
                     'targetDirectory' => $this->getTargetDirectory(),
                     'message' => $e->getMessage(),
@@ -60,9 +61,9 @@ class AbstractUploadService
             return null;
         }
 
-        return $this->getTargetDirectory() . '/' . $filename;
+        return $this->getTargetDirectory().'/'.$filename;
     }
-    
+
     public function delete(?string $filename): bool
     {
         try {

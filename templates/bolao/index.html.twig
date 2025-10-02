@@ -1,20 +1,171 @@
+{# templates/bolao/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BolaoController!{% endblock %}
+{% block title %}
+    {{ parent() }} :: Bolões
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active"><twig:ux:icon name="fa-solid:futbol" /> Bolões</li>
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h4 m-0">
+                        <twig:ux:icon name="fa-solid:futbol" /> Bolões
+                    </h1>
+                </div>
+                <div>
+                    <a data-loading="true" href="{{ path('app_bolao_new') }}" class="btn btn-secondary btn-sm bg-gradient shadow-sm">
+                        <twig:ux:icon name="bi:plus-circle" /> Novo
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body border-bottom">
+            <form name="apostador_filter" id='apostador_filter' method="get" data-loading="true">
+                <div class="row">
+                    <div class="col-12 col-md-8">
+                        <div class="mb-3">
+                            <label for="loteria" class="form-label">Loteria</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="loteria_icon"><twig:ux:icon name="meteor-icons:clover" class="Icon icon-rotate-45" /></span>
+                                <select name="filter_loteria" id="filter_loteria" class="form-select" aria-label="Loteria" aria-describedby="loteria_icon" autofocus="true">
+                                    <option value{% if filter_loteria is null %} selected{% endif %}>Selecione uma loteria</option>
+                                    {% for lot in loterias %}
+                                        <option value="{{ lot.uuid }}"{% if lot.uuid == filter_loteria %} selected{% endif %}>{{ lot.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="mb-3">
+                            <label for="filter_concurso" class="form-label">Concurso</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="concurso_icon"><twig:ux:icon name="bi:ticket-perforated" /></span>
+                                <input type="text" name="filter_concurso" value="{{ filter_concurso }}" class="form-control" id="filter_concurso" aria-label="Concurso">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <div class="mb-3">
+                            <label for="filter_bolao" class="form-label">Nome do bolão</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="bolao_icon"><twig:ux:icon name="bi:alphabet" /></span>
+                                <input type="text" name="filter_bolao" value="{{ filter_bolao }}" class="form-control" id="filter_bolao" aria-label="Nome do bolão">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="mb-3">
+                            <label for="filter_apurado" class="form-label">Apurado</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="apurado_icon"><twig:ux:icon name="bi:check-square-fill" /></i></span>
+                                <select name="filter_apurado" id="filter_apurado" class="form-select" aria-label="Apurado" aria-describedby="apurado_icon">
+                                    <option value{% if filter_apurado is null %} selected{% endif %}>Selecione uma opção</option>
+                                    <option value="1"{% if filter_apurado == 1 %} selected{% endif %}>Sim</option>
+                                    <option value="0"{% if (filter_apurado is not null) and (filter_apurado == 0) %} selected{% endif %}>Não</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-end align-items-end">
+                        <div>
+                            <button type="button" id="filter_button_limpar" class="btn btn-secondary btn-sm bg-gradient shadow-sm me-1"><twig:ux:icon name="carbon:clean" /> Limpar</button>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary btn-sm bg-gradient shadow-sm"><twig:ux:icon name="bi:funnel-fill" /> Filtrar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-hover table-bordered shadow-sm">
+                <thead>
+                    <tr>
+                        <th class="d-table-cell d-xl-none">Bolão</th>
+                        <th class="d-none d-xl-table-cell">Nome</th>
+                        <th class="d-none d-xl-table-cell">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>Loteria</div>
+                                <div><twig:ux:icon name="bi:sort-alpha-down" /></div>
+                            </div>
+                        </th>
+                        <th class="d-none d-xl-table-cell">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>Concurso</div>
+                                <div><twig:ux:icon name="bi:sort-numeric-down-alt" /></div>
+                            </div>
+                        </th>
+                        <th class="d-none d-xl-table-cell">Apuração</th>
+                        <th class="d-none d-xl-table-cell">Atualização</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {% for bolao in boloes %}
+                        <tr>
+                            <td class="d-table-cell d-xl-none text-break">
+                                <p>
+                                    <strong>Nome</strong><br/>
+                                    {{ bolao.nome }}
+                                </p>
+                                <p>
+                                    <strong>Loteria</strong><br/>
+                                    {{ bolao.concurso.loteria.nome }}
+                                </p>
+                                <p>
+                                    <strong>Concurso</strong><br/>
+                                    {{ bolao.concurso.numero }}
+                                </p>
+                                <p>
+                                    <strong>Apuração</strong><br/>
+                                    {{ bolao.concurso.apuracao|date('d/m/Y') }}
+                                </p>
+                                <p>
+                                    <strong>Atualização</strong><br/>
+                                    {{ bolao.updatedAt ? bolao.updatedAt|date('d/m/Y H:i', 'America/Sao_Paulo') : bolao.createdAt|date('d/m/Y H:i', 'America/Sao_Paulo') }}
+                                </p>
+                            </td>
+                            <td class="d-none d-xl-table-cell align-middle">{{ bolao.nome }}</td>
+                            <td class="d-none d-xl-table-cell align-middle">{{ bolao.concurso.loteria.nome }}</td>
+                            <td class="d-none d-xl-table-cell align-middle text-end">{{ bolao.concurso.numero }}</td>
+                            <td class="d-none d-xl-table-cell align-middle text-end">{{ bolao.concurso.apuracao|date('d/m/Y') }}</td>
+                            <td class="d-none d-xl-table-cell align-middle text-end">
+                                {{ bolao.updatedAt ? bolao.updatedAt|date('d/m/Y H:i', 'America/Sao_Paulo') : bolao.createdAt|date('d/m/Y H:i', 'America/Sao_Paulo') }}
+                            </td>
+                            <td class="text-center align-middle">
+                                <div class="dropdown dropstart">
+                                    <button class="btn btn-sm btn-secondary bg-gradient shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <twig:ux:icon name="bi:three-dots-vertical" />
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a data-loading="true" class="dropdown-item" href="{{ path('app_bolao_edit', {'uuid': bolao.uuid}) }}"><twig:ux:icon name="bi:pencil" /> Alterar</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><button type="button" class="dropdown-item text-bg-danger" data-controller="delete" data-action="click->delete#show" data-delete-uuid-value="{{ bolao.uuid }}" data-delete-mensagem-value="{{ 'Deseja excluir <strong>"' ~ bolao.nome ~ '"</strong>?' }}"><twig:ux:icon name="bi:trash3" /> Excluir</button></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center"><twig:ux:icon name="bi:emoji-frown" /> Nenhum registro encontrado</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {{ include('_tableFooter.html.twig', {'paginacao': boloes}) }}
+    </div>
+    {{ include('_deleteModal.html.twig', {'deleteAction': path('app_bolao_delete')}) }}
+{% endblock %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/leorm/git/bolao/src/Controller/BolaoController.php</code></li>
-        <li>Your template at <code>/home/leorm/git/bolao/templates/bolao/index.html.twig</code></li>
-    </ul>
-</div>
+{% block javascripts_footer %}
+    {{ parent() }}
+    <script src="{{ asset('bolao/index.js') }}"></script>
 {% endblock %}

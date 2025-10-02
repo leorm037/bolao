@@ -28,20 +28,20 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-
     public function __construct(
-            private EmailVerifier $emailVerifier
+        private EmailVerifier $emailVerifier,
     ) {
-        
     }
 
     #[Route('/agree-terms', name: 'app_agree_terms')]
-    public function agreeTerms(): Response {
+    public function agreeTerms(): Response
+    {
         return $this->render('registration/agreeTerms.html.twig');
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response {
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    {
         $user = new Usuario();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -61,11 +61,11 @@ class RegistrationController extends AbstractController
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                    (new TemplatedEmail())
-                            ->from(new Address('sistema@paginaemconstrucao.com.br', 'Não responda'))
-                            ->to((string) $user->getEmail())
-                            ->subject('Por favor, confirme o seu e-mail')
-                            ->htmlTemplate('registration/confirmation_email.html.twig')
+                (new TemplatedEmail())
+                        ->from(new Address('sistema@paginaemconstrucao.com.br', 'Não responda'))
+                        ->to((string) $user->getEmail())
+                        ->subject('Por favor, confirme o seu e-mail')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
             // do anything else you need here, like send an email
@@ -74,12 +74,13 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('registration/register.html.twig', [
-                    'form' => $form,
+            'form' => $form,
         ]);
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator, UsuarioRepository $usuarioRepository): Response {
+    public function verifyUserEmail(Request $request, TranslatorInterface $translator, UsuarioRepository $usuarioRepository): Response
+    {
         $id = $request->query->get('id');
 
         if (null === $id) {

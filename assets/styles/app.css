@@ -41,6 +41,20 @@ a.navbar-bg-bolao:hover {
     color: #fff!important;
 }
 
+.navbar-nav .nav-item .nav-link.active {
+    color: #fff!important;
+}
+
+.navbar-nav .nav-item .nav-link.active::before {
+    content: "[";
+    margin-right: 0px;
+}
+
+.navbar-nav .nav-item .nav-link.active::after {
+    content: "]";
+    margin-left: 0px;
+}
+
 .Icon {
     display: inline-grid;
     place-content: center;

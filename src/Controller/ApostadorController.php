@@ -34,13 +34,15 @@ final class ApostadorController extends AbstractController
 
     public function __construct(
             private ApostadorRepository $repository,
-            private ApostadorService $service
-    ) {
+            private ApostadorService $service,
+    )
+    {
         
     }
 
     #[Route('', name: 'index')]
-    public function index(Request $request): Response {
+    public function index(Request $request): Response
+    {
         $registrosPorPaginas = $request->get('registros-por-pagina', 10);
 
         $pagina = $request->get('pagina', 1);
@@ -59,12 +61,13 @@ final class ApostadorController extends AbstractController
 
         return $this->render('apostador/index.html.twig', [
                     'apostadores' => $apostadores,
-                    'filter_nome' => $filter_nome_sanitized
+                    'filter_nome' => $filter_nome_sanitized,
         ]);
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request): Response {
+    public function new(Request $request): Response
+    {
         $apostador = new Apostador();
 
         $form = $this->createForm(ApostadorFormType::class, $apostador);
@@ -91,7 +94,8 @@ final class ApostadorController extends AbstractController
 
     #[Route('/{uuid:apostador}/edit', name: 'edit', methods: ['GET', 'POST'], requirements: ['uuid' => '[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}'])]
     #[IsGranted('APOSTADOR_EDIT', 'apostador')]
-    public function edit(Request $request, Apostador $apostador): Response {
+    public function edit(Request $request, Apostador $apostador): Response
+    {
         $form = $this->createForm(ApostadorFormType::class, $apostador);
         $form->handleRequest($request);
 
@@ -111,7 +115,8 @@ final class ApostadorController extends AbstractController
     }
 
     #[Route('/export', name: 'export', methods: ['GET'])]
-    public function export(): StreamedResponse {
+    public function export(): StreamedResponse
+    {
         $usuario = $this->getUser();
         $apostadores = $this->repository->list($usuario)->getIterator();
 
@@ -121,7 +126,7 @@ final class ApostadorController extends AbstractController
                     $service->exportar($apostadores);
                 });
 
-        $fileName = "apostador-" . date('Y-m-d-H-i-s');
+        $fileName = 'apostador-' . date('Y-m-d-H-i-s');
 
         $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         $response->headers->set('Content-Disposition', $response->headers->makeDisposition(
@@ -135,7 +140,8 @@ final class ApostadorController extends AbstractController
     }
 
     #[Route('/delete', name: 'delete', methods: ['POST'])]
-    public function delete(Request $request): Response {
+    public function delete(Request $request): Response
+    {
         $token = $request->getPayload()->get('token');
 
         if (!$this->isCsrfTokenValid(TokenEnum::DELETE->value, $token)) {

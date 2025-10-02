@@ -1,5 +1,14 @@
 <?php
 
+/*
+ *     This file is part of Bolão.
+ *
+ *     (c) Leonardo Rodrigues Marques <leonardo@rodriguesmarques.com.br>
+ *
+ *     This source file is subject to the MIT license that is bundled
+ *     with this source code in the file LICENSE.
+ */
+
 namespace App\Service;
 
 use App\Entity\Apostador;
@@ -12,19 +21,14 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-class ApostadorService {
-
-    /**
-     * 
-     * @param ArrayIterator $apostadores
-     * @return void
-     */
-    public function exportar(ArrayIterator $apostadores): void {
-
+class ApostadorService
+{
+    public function exportar(ArrayIterator $apostadores): void
+    {
         $planilha = new Spreadsheet();
 
         $aba = $planilha->getActiveSheet()
-                ->setTitle("Apostadores")
+                ->setTitle('Apostadores')
                 ->setCellValue('A1', 'Nome')
                 ->setCellValue('B1', 'E-mail')
                 ->setCellValue('C1', 'Chave PIX')
@@ -80,7 +84,7 @@ class ApostadorService {
             $aba->getColumnDimension($col)->setAutoSize(true);
         }
 
-        for ($i = 0; $i < count($apostadores); ++$i) {
+        for ($i = 0; $i < \count($apostadores); ++$i) {
             $linha = $i + 2;
 
             /** @var Apostador $apostador */
@@ -96,31 +100,30 @@ class ApostadorService {
             $format = 'd/m/Y H:i';
 
             if ($apostador->getUpdatedAt()) {
-                
                 $atualizacao = $apostador->getUpdatedAt()->setTimezone(new DateTimeZone('America/Sao_Paulo'))->format($format);
             } else {
                 $atualizacao = DateTime::createFromImmutable($apostador->getCreatedAt())->format($format);
             }
 
-            $aba->setCellValue('A' . $linha, $nome);
-            $aba->setCellValue('B' . $linha, $email);
-            $aba->setCellValue('C' . $linha, $pix);
-            $aba->setCellValue('D' . $linha, $telefone);
-            $aba->setCellValue('E' . $linha, $celular);
-            $aba->setCellValue('F' . $linha, $atualizacao);
+            $aba->setCellValue('A'.$linha, $nome);
+            $aba->setCellValue('B'.$linha, $email);
+            $aba->setCellValue('C'.$linha, $pix);
+            $aba->setCellValue('D'.$linha, $telefone);
+            $aba->setCellValue('E'.$linha, $celular);
+            $aba->setCellValue('F'.$linha, $atualizacao);
 
-            if ($linha % 2 == 0) {
+            if (0 == $linha % 2) {
                 $aba->getStyle("A{$linha}:F{$linha}")->applyFromArray($lineOddStyle);
             } else {
                 $aba->getStyle("A{$linha}:F{$linha}")->applyFromArray($lineEvenStyle);
-            }            
+            }
         }
-        
+
         $highestRow = $aba->getHighestRow();
-        
+
         $aba->getStyle("E2:E{$highestRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
         $aba->getStyle("F2:F{$highestRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
-        
+
         $aba->getStyle('A1');
 
         $write = new Xlsx($planilha);

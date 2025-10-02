@@ -25,7 +25,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\HasLifecycleCallbacks]
 class Apostador extends AbstractEntity
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -63,105 +62,126 @@ class Apostador extends AbstractEntity
     #[ORM\Column(options: ['default' => 'FALSE'])]
     private ?bool $isDefault = false;
 
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    public function getNome(): ?string {
+    public function getNome(): ?string
+    {
         return $this->nome;
     }
 
-    public function setNome(string $nome): static {
+    public function setNome(string $nome): static
+    {
         $this->nome = $nome;
 
         return $this;
     }
 
-    public function getUuid(): ?Uuid {
+    public function getUuid(): ?Uuid
+    {
         return $this->uuid;
     }
 
-    public function setUuid(Uuid $uuid): static {
+    public function setUuid(Uuid $uuid): static
+    {
         $this->uuid = $uuid;
 
         return $this;
     }
 
-    public function getUsuario(): ?Usuario {
+    public function getUsuario(): ?Usuario
+    {
         return $this->usuario;
     }
 
-    public function setUsuario(?Usuario $usuario): static {
+    public function setUsuario(?Usuario $usuario): static
+    {
         $this->usuario = $usuario;
 
         return $this;
     }
 
-    public function getEmail(): ?string {
+    public function getEmail(): ?string
+    {
         return $this->email;
     }
 
-    public function setEmail(?string $email): static {
+    public function setEmail(?string $email): static
+    {
         $this->email = $email;
 
         return $this;
     }
 
-    public function getPix(): ?string {
+    public function getPix(): ?string
+    {
         return $this->pix;
     }
 
-    public function setPix(?string $pix): static {
+    public function setPix(?string $pix): static
+    {
         $this->pix = $pix;
 
         return $this;
     }
 
-    public function getTelefone(): ?string {
+    public function getTelefone(): ?string
+    {
         return $this->telefone;
     }
 
-    public function setTelefone(?string $telefone): static {
+    public function setTelefone(?string $telefone): static
+    {
         $this->telefone = $telefone;
 
         return $this;
     }
 
-    public function getCelular(): ?string {
+    public function getCelular(): ?string
+    {
         return $this->celular;
     }
 
-    public function setCelular(?string $celular): static {
+    public function setCelular(?string $celular): static
+    {
         $this->celular = $celular;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeImmutable {
+    public function getCreatedAt(): ?DateTimeImmutable
+    {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): static {
+    public function setCreatedAt(DateTimeImmutable $createdAt): static
+    {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTime {
+    public function getUpdatedAt(): ?DateTime
+    {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?DateTime $updatedAt): static {
+    public function setUpdatedAt(?DateTime $updatedAt): static
+    {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function isDefault(): bool {
+    public function isDefault(): bool
+    {
         return $this->isDefault;
     }
 
-    public function setIsDefault(bool $isDefault = false): static {
+    public function setIsDefault(bool $isDefault = false): static
+    {
         $this->isDefault = $isDefault;
 
         return $this;

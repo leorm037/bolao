@@ -35,12 +35,12 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Nome completo',
                 'required' => true,
                 'attr' => [
-                    'autofocus' => true
-                ]
+                    'autofocus' => true,
+                ],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'E-mail',
-                'required' => true
+                'required' => true,
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => 'Eu concordo com os termos de serviço',
@@ -56,8 +56,8 @@ class RegistrationFormType extends AbstractType
                 'required' => true,
                 'options' => [
                     'attr' => [
-                        'autocomplete' => 'new-password'
-                    ]
+                        'autocomplete' => 'new-password',
+                    ],
                 ],
                 'type' => PasswordType::class,
                 'invalid_message' => 'A confirmarção da senha não corresponde com a senha informada.',
@@ -73,12 +73,12 @@ class RegistrationFormType extends AbstractType
                             'max' => 4096,
                         ]),
                         new PasswordStrength(),
-                        new NotCompromisedPassword()
+                        new NotCompromisedPassword(),
                     ],
                 ],
                 'second_options' => [
-                    'label' => 'Confirmar senha'
-                ]
+                    'label' => 'Confirmar senha',
+                ],
             ])
         ;
     }

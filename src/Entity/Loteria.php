@@ -29,7 +29,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\HasLifecycleCallbacks]
 class Loteria extends AbstractEntity
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -71,99 +70,126 @@ class Loteria extends AbstractEntity
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?DateTime $updatedAt = null;
 
-    public function __construct() {
+    /**
+     * @var Collection<int, Concurso>
+     */
+    #[ORM\OneToMany(targetEntity: Concurso::class, mappedBy: 'loteria')]
+    private Collection $concursos;
+
+    public function __construct()
+    {
         $this->loteriaRateios = new ArrayCollection();
+        $this->concursos = new ArrayCollection();
     }
 
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    public function getUuid(): ?Uuid {
+    public function getUuid(): ?Uuid
+    {
         return $this->uuid;
     }
 
-    public function setUuid(Uuid $uuid): static {
+    public function setUuid(Uuid $uuid): static
+    {
         $this->uuid = $uuid;
 
         return $this;
     }
 
-    public function getNome(): ?string {
+    public function getNome(): ?string
+    {
         return $this->nome;
     }
 
-    public function setNome(string $nome): static {
+    public function setNome(string $nome): static
+    {
         $this->nome = $nome;
 
         return $this;
     }
 
-    public function getUrlSlug(): ?string {
+    public function getUrlSlug(): ?string
+    {
         return $this->urlSlug;
     }
 
-    public function setUrlSlug(string $urlSlug): static {
+    public function setUrlSlug(string $urlSlug): static
+    {
         $this->urlSlug = $urlSlug;
 
         return $this;
     }
 
-    public function getUrlApi(): ?string {
+    public function getUrlApi(): ?string
+    {
         return $this->urlApi;
     }
 
-    public function setUrlApi(string $urlApi): static {
+    public function setUrlApi(string $urlApi): static
+    {
         $this->urlApi = $urlApi;
 
         return $this;
     }
 
-    public function getDezenas(): array {
+    public function getDezenas(): array
+    {
         return $this->dezenas;
     }
 
-    public function setDezenas(array $dezenas): static {
+    public function setDezenas(array $dezenas): static
+    {
         $this->dezenas = $dezenas;
 
         return $this;
     }
 
-    public function getApostas(): array {
+    public function getApostas(): array
+    {
         return $this->apostas;
     }
 
-    public function setApostas(array $apostas): static {
+    public function setApostas(array $apostas): static
+    {
         $this->apostas = $apostas;
 
         return $this;
     }
 
-    public function getPremios(): array {
+    public function getPremios(): array
+    {
         return $this->premios;
     }
 
-    public function setPremios(array $premios): static {
+    public function setPremios(array $premios): static
+    {
         $this->premios = $premios;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeImmutable {
+    public function getCreatedAt(): ?DateTimeImmutable
+    {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): static {
+    public function setCreatedAt(DateTimeImmutable $createdAt): static
+    {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTime {
+    public function getUpdatedAt(): ?DateTime
+    {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?DateTime $updatedAt): static {
+    public function setUpdatedAt(?DateTime $updatedAt): static
+    {
         $this->updatedAt = $updatedAt;
 
         return $this;
@@ -172,11 +198,13 @@ class Loteria extends AbstractEntity
     /**
      * @return Collection<int, LoteriaRateio>
      */
-    public function getLoteriaRateios(): Collection {
+    public function getLoteriaRateios(): Collection
+    {
         return $this->loteriaRateios;
     }
 
-    public function addLoteriaRateio(LoteriaRateio $loteriaRateio): static {
+    public function addLoteriaRateio(LoteriaRateio $loteriaRateio): static
+    {
         if (!$this->loteriaRateios->contains($loteriaRateio)) {
             $this->loteriaRateios->add($loteriaRateio);
             $loteriaRateio->setLoteria($this);
@@ -185,11 +213,42 @@ class Loteria extends AbstractEntity
         return $this;
     }
 
-    public function removeLoteriaRateio(LoteriaRateio $loteriaRateio): static {
+    public function removeLoteriaRateio(LoteriaRateio $loteriaRateio): static
+    {
         if ($this->loteriaRateios->removeElement($loteriaRateio)) {
             // set the owning side to null (unless already changed)
             if ($loteriaRateio->getLoteria() === $this) {
                 $loteriaRateio->setLoteria(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Concurso>
+     */
+    public function getConcursos(): Collection
+    {
+        return $this->concursos;
+    }
+
+    public function addConcurso(Concurso $concurso): static
+    {
+        if (!$this->concursos->contains($concurso)) {
+            $this->concursos->add($concurso);
+            $concurso->setLoteria($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConcurso(Concurso $concurso): static
+    {
+        if ($this->concursos->removeElement($concurso)) {
+            // set the owning side to null (unless already changed)
+            if ($concurso->getLoteria() === $this) {
+                $concurso->setLoteria(null);
             }
         }
 

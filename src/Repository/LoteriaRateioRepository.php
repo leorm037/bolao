@@ -23,12 +23,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class LoteriaRateioRepository extends ServiceEntityRepository
 {
-
-    public function __construct(ManagerRegistry $registry) {
+    public function __construct(ManagerRegistry $registry)
+    {
         parent::__construct($registry, LoteriaRateio::class);
     }
 
-    public function list(Loteria $loteria, int $registrosPorPagina = 10, int $paginaAtual = 1) {
+    public function list(Loteria $loteria, int $registrosPorPagina = 10, int $paginaAtual = 1)
+    {
         $registros = (!\in_array($registrosPorPagina, [10, 25, 50, 100])) ? 10 : $registrosPorPagina;
 
         $pagina = ($paginaAtual - 1) * $registrosPorPagina;
@@ -48,7 +49,8 @@ class LoteriaRateioRepository extends ServiceEntityRepository
         return new PaginacaoDTO(new Paginator($query), $registrosPorPagina, $paginaAtual);
     }
 
-    public function save(LoteriaRateio $loteriaRateio, bool $flush = true): void {
+    public function save(LoteriaRateio $loteriaRateio, bool $flush = true): void
+    {
         $this->getEntityManager()->persist($loteriaRateio);
 
         if ($flush) {

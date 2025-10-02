@@ -24,12 +24,13 @@ use Symfony\Component\Uid\Uuid;
  */
 class ApostadorRepository extends ServiceEntityRepository
 {
-
-    public function __construct(private ManagerRegistry $registry) {
+    public function __construct(private ManagerRegistry $registry)
+    {
         parent::__construct($registry, Apostador::class);
     }
 
-    public function save(Apostador $apostador, bool $flush = true): void {
+    public function save(Apostador $apostador, bool $flush = true): void
+    {
         $this->getEntityManager()->persist($apostador);
 
         if ($flush) {
@@ -38,12 +39,10 @@ class ApostadorRepository extends ServiceEntityRepository
     }
 
     /**
-     * 
-     * @param int $registrosPorPagina
-     * @param int $paginaAtual
      * @return PaginacaoDTO|null
      */
-    public function list(Usuario $usuario, int $registrosPorPagina = 10, int $paginaAtual = 1, ?string $filter_nome = null) {
+    public function list(Usuario $usuario, int $registrosPorPagina = 10, int $paginaAtual = 1, ?string $filter_nome = null)
+    {
         $registros = (!\in_array($registrosPorPagina, [10, 25, 50, 100])) ? 10 : $registrosPorPagina;
 
         $pagina = ($paginaAtual - 1) * $registrosPorPagina;
@@ -60,14 +59,15 @@ class ApostadorRepository extends ServiceEntityRepository
         if ($filter_nome) {
             $query
                     ->andWhere('a.nome LIKE :filter_nome')
-                    ->setParameter('filter_nome', "%" . $filter_nome . "%")
+                    ->setParameter('filter_nome', '%'.$filter_nome.'%')
             ;
         }
 
         return new PaginacaoDTO(new Paginator($query), $registrosPorPagina, $paginaAtual);
     }
 
-    public function findOneByUuid(Uuid $uuid): ?Apostador {
+    public function findOneByUuid(Uuid $uuid): ?Apostador
+    {
         return $this->createQueryBuilder('a')
                         ->where('a.uuid = :uuid')
                         ->setParameter('uuid', $uuid->toBinary())
@@ -76,32 +76,33 @@ class ApostadorRepository extends ServiceEntityRepository
         ;
     }
 
-    public function delete(Apostador $apostador): void {
+    public function delete(Apostador $apostador): void
+    {
         $this->getEntityManager()->remove($apostador);
         $this->getEntityManager()->flush();
     }
 
-//    /**
-//     * @return Apostador[] Returns an array of Apostador objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-//    public function findOneBySomeField($value): ?Apostador
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Apostador[] Returns an array of Apostador objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('a')
+    //            ->andWhere('a.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('a.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+    //    public function findOneBySomeField($value): ?Apostador
+    //    {
+    //        return $this->createQueryBuilder('a')
+    //            ->andWhere('a.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

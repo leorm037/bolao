@@ -17,8 +17,8 @@ use Doctrine\Persistence\ObjectManager;
 
 class LoteriaFixtures extends Fixture
 {
-
-    public function load(ObjectManager $manager): void {
+    public function load(ObjectManager $manager): void
+    {
         $loterias = [
             [
                 'nome' => 'Mega-Sena',
@@ -26,7 +26,7 @@ class LoteriaFixtures extends Fixture
                 'urlApi' => 'https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena',
                 'apostas' => range(6, 15, 1),
                 'dezenas' => range(1, 60, 1),
-                'premios' => [6, 5, 4]
+                'premios' => [6, 5, 4],
             ],
             [
                 'nome' => '+Milionária',
@@ -34,7 +34,7 @@ class LoteriaFixtures extends Fixture
                 'urlApi' => 'https://servicebus2.caixa.gov.br/portaldeloterias/api/maismilionaria',
                 'apostas' => range(6, 12, 1),
                 'dezenas' => range(1, 50, 1),
-                'premios' => [6, 5, 4]
+                'premios' => [6, 5, 4],
             ],
             [
                 'nome' => 'Quina',
@@ -42,7 +42,7 @@ class LoteriaFixtures extends Fixture
                 'urlApi' => 'https://servicebus2.caixa.gov.br/portaldeloterias/api/quina',
                 'apostas' => range(5, 15, 1),
                 'dezenas' => range(1, 80, 1),
-                'premios' => [6, 5, 4]
+                'premios' => [6, 5, 4],
             ],
         ];
 

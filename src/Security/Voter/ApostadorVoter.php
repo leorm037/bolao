@@ -17,16 +17,18 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-final class ApostadorVoter extends Voter {
-
+final class ApostadorVoter extends Voter
+{
     public const EDIT = 'APOSTADOR_EDIT';
     public const DELETE = 'APOSTADOR_DELETE';
-    
-    protected function supports(string $attribute, mixed $subject): bool {
+
+    protected function supports(string $attribute, mixed $subject): bool
+    {
         return \in_array($attribute, [self::EDIT, self::DELETE]) && $subject instanceof Apostador;
     }
 
-    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool {
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
+    {
         $usuario = $token->getUser();
 
         if (!$usuario instanceof Usuario) {
@@ -37,11 +39,12 @@ final class ApostadorVoter extends Voter {
 
         return match ($attribute) {
             self::EDIT => $this->canEdit($apostador, $usuario),
-            self::DELETE => $this->canDelete($apostador, $usuario)
+            self::DELETE => $this->canDelete($apostador, $usuario),
         };
     }
 
-    private function canEdit(Apostador $apostador, Usuario $usuario): bool {
+    private function canEdit(Apostador $apostador, Usuario $usuario): bool
+    {
         if ($usuario === $apostador->getUsuario()) {
             return true;
         }
@@ -50,8 +53,9 @@ final class ApostadorVoter extends Voter {
 
         return false;
     }
-    
-    private function canDelete(Apostador $apostador, Usuario $usuario): bool {
+
+    private function canDelete(Apostador $apostador, Usuario $usuario): bool
+    {
         if ($usuario === $apostador->getUsuario()) {
             return true;
         }
