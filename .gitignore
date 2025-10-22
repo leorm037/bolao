@@ -27,3 +27,7 @@
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###
+
+###> Node ###
+node_modules/
+###< Node ###
