@@ -23,6 +23,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class LoteriaRateioRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, LoteriaRateio::class);
@@ -47,6 +48,11 @@ class LoteriaRateioRepository extends ServiceEntityRepository
         ;
 
         return new PaginacaoDTO(new Paginator($query), $registrosPorPagina, $paginaAtual);
+    }
+
+    public function findAllOrderByNome()
+    {
+        return $this->findBy([],['nome' => 'ASC']);
     }
 
     public function save(LoteriaRateio $loteriaRateio, bool $flush = true): void

@@ -1,0 +1,24 @@
+{# templates/bolao/new.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} :: Apostadores :: Novo{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{{ path('app_bolao_index') }}" class="text-decoration-none"><twig:ux:icon name="material-symbols:groups" /> Bolões</a></li>
+    <li class="breadcrumb-item active"><twig:ux:icon name="bi:plus-circle" /> Novo</li>
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form, {'attr': {'data-loading': 'true'}}) }}
+    <div class="card shadow-sm">
+        <div class="card-header bg-gradient">
+            <h1 class="h4 m-0"><twig:ux:icon name="bi:plus-circle" /></i> Novo</h1>
+        </div>
+        <div class="card-body">
+            {{ include('bolao/_form.html.twig') }}
+        </div>
+
+        {{ include('_formFooter.html.twig', {'voltar_href': path('app_bolao_index')}) }}
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

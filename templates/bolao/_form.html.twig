@@ -1,0 +1,36 @@
+{# templates/bolao/_form.html.twig #}
+<div class="row">
+    <div class="col-12 col-md-6">
+        <div class="mb-3">
+            {{ form_label(form.loteria) }}
+            <div class="input-group">
+                <div class="input-group-text"><twig:ux:icon name="meteor-icons:clover" class="Icon icon-rotate-45" /></div>
+                {{ form_widget(form.loteria) }}
+            </div>
+            {{ form_errors(form.loteria) }}
+            {{ form_help(form.loteria) }}
+        </div>
+    </div>    
+    <div class="col-12 col-md-6">
+        <div class="mb-3">
+            {{ form_label(form.concursoNumero) }}
+            <div class="input-group">
+                <div class="input-group-text"><twig:ux:icon name="bi:123" /></div>
+                {{ form_widget(form.concursoNumero) }}
+            </div>
+            {{ form_errors(form.concursoNumero) }}
+            {{ form_help(form.concursoNumero) }}
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="mb-3">
+            {{ form_label(form.nome) }}
+            <div class="input-group">
+                <div class="input-group-text"><twig:ux:icon name="bi:alphabet" /></div>
+                {{ form_widget(form.nome) }}
+            </div>
+            {{ form_errors(form.nome) }}
+            {{ form_help(form.nome) }}
+        </div>
+    </div>
+</div>

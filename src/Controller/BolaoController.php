@@ -11,8 +11,10 @@
 
 namespace App\Controller;
 
+use App\DTO\BolaoDTO;
 use App\Entity\Bolao;
 use App\Entity\Usuario;
+use App\Form\BolaoFormType;
 use App\Repository\BolaoRepository;
 use App\Repository\LoteriaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -79,7 +81,16 @@ final class BolaoController extends AbstractController
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
-        return $this->render();
+        $bolaoDTO = new BolaoDTO();
+
+        $form = $this->createForm(BolaoFormType::class, $bolaoDTO);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+        }
+
+        return $this->render('bolao/new.html.twig', ['form' => $form]);
     }
 
     #[Route('/{uuid:bolao}/edit', name: 'edit', methods: ['GET', 'POST'], requirements: ['uuid' => '[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}'])]
